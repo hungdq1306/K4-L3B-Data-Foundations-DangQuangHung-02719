@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopee Policy RAG Assistant — Slides Thuyết Trình Nhóm Enigma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-shopee: #EE4D2D;
+      --primary-dark: #D73211;
+      --primary-light: #FFF0ED;
+      --primary-border: #FFCCBF;
+      --accent-coral: #FF5722;
+      --accent-gold: #D97706;
+      --accent-gold-bg: #FEF3C7;
+      --accent-green: #16A34A;
+      --accent-green-bg: #DCFCE7;
+      --accent-green-border: #86EFAC;
+      --accent-red: #DC2626;
+      --accent-red-bg: #FEE2E2;
+      --accent-blue: #0284C7;
+      --accent-blue-bg: #E0F2FE;
+      --slate-900: #0F172A;
+      --slate-800: #1E293B;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748B;
+      --slate-200: #E2E8F0;
+      --slate-100: #F1F5F9;
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-deck: 0 25px 60px -15px rgba(180, 40, 10, 0.35);
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #FF6F00 0%, #EE4D2D 45%, #D84315 100%);
+      color: var(--slate-900);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Ambient Warm Glow */
+    .ambient-mesh {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.35;
+      animation: orbFloat 16s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 550px; height: 550px; background: #FFD54F; top: -120px; left: -100px; }
+    .orb-2 { width: 600px; height: 600px; background: #FF3D00; bottom: -150px; right: -80px; animation-delay: -5s; }
+
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    /* Slide Deck Container (16:9 Aspect Ratio) */
+    .deck-container {
+      position: relative;
+      z-index: 1;
+      width: 95vw;
+      max-width: 1280px;
+      height: 82vh;
+      max-height: 720px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-deck);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Slide Header Bar */
+    .slide-top-bar {
+      padding: 16px 28px;
+      background: #FFFFFF;
+      border-bottom: 1.5px solid var(--slate-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .shopee-logo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-shopee);
+      color: white;
+      padding: 5px 14px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: -0.3px;
+    }
+    .shopee-logo-pill svg { width: 18px; height: 18px; fill: white; }
+    .project-name {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--slate-800);
+    }
+    .team-badge-pill {
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary-shopee);
+      border: 1px solid var(--primary-border);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* Slide Body Viewport */
+    .slide-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 32px 40px;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Slide Common Headers */
+    .slide-header {
+      margin-bottom: 16px;
+    }
+    .slide-category {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--primary-shopee);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .slide-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--slate-900);
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+    }
+    .slide-subtitle {
+      font-size: 0.92rem;
+      color: var(--slate-600);
+      margin-top: 4px;
+    }
+
+    /* Bottom Slide Nav Control */
+    .slide-bottom-bar {
+      padding: 12px 28px;
+      background: #FAFAFA;
+      border-top: 1.5px solid var(--slate-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slide-counter {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--slate-600);
+      background: #FFFFFF;
+      border: 1px solid var(--slate-200);
+      padding: 4px 12px;
+      border-radius: 8px;
+    }
+    .progress-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--slate-200);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dot.active {
+      background: var(--primary-shopee);
+      width: 26px;
+      border-radius: 6px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    .nav-btn {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-200);
+      border-radius: 8px;
+      padding: 6px 16px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--slate-700);
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-btn:hover {
+      background: var(--primary-shopee);
+      color: white;
+      border-color: var(--primary-shopee);
+    }
+    .demo-link-btn {
+      background: linear-gradient(135deg, #EE4D2D 0%, #FF5722 100%);
+      color: white;
+      border: none;
+      box-shadow: 0 3px 10px rgba(238, 77, 45, 0.35);
+    }
+    .demo-link-btn:hover {
+      box-shadow: 0 6px 16px rgba(238, 77, 45, 0.45);
+      transform: translateY(-1px);
+    }
+
+    /* SLIDE 1: Title & Team Cards */
+    .title-banner {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .title-tagline {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--primary-shopee);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .title-main {
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: var(--slate-900);
+      letter-spacing: -0.8px;
+      line-height: 1.2;
+    }
+    .title-main span {
+      background: linear-gradient(135deg, #EE4D2D 0%, #FF5722 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .title-desc {
+      font-size: 1.05rem;
+      color: var(--slate-600);
+      max-width: 820px;
+      line-height: 1.5;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .team-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+    .team-card.featured {
+      border-color: var(--primary-shopee);
+      background: var(--primary-light);
+    }
+    .team-card.featured::before {
+      content: "STRATEGY LEAD";
+      position: absolute;
+      top: 8px;
+      right: -24px;
+      background: var(--primary-shopee);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 800;
+      padding: 2px 24px;
+      transform: rotate(45deg);
+    }
+    .role-badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+    .role-r1 { background: #E0F2FE; color: #0369A1; }
+    .role-r2 { background: #FEF3C7; color: #B45309; }
+    .role-r3 { background: #FEE2E2; color: #DC2626; }
+    .role-r4 { background: #DCFCE7; color: #15803D; }
+
+    .member-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--slate-900);
+    }
+    .member-msv {
+      font-size: 0.76rem;
+      font-family: monospace;
+      color: var(--slate-500);
+      font-weight: 700;
+    }
+    .member-work {
+      font-size: 0.75rem;
+      color: var(--slate-600);
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+
+    /* SLIDE 2: Data & Challenge */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      flex: 1;
+      align-items: stretch;
+    }
+    .content-box {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .box-heading {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .stat-pills-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .stat-pill {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat-num { font-size: 1.25rem; font-weight: 900; color: var(--primary-shopee); }
+    .stat-lbl { font-size: 0.7rem; color: var(--slate-500); font-weight: 700; }
+
+    .conflict-card {
+      background: #FFF5F2;
+      border: 1.5px solid #FFD5CC;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .conflict-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+    .badge-buyer { background: #0284C7; color: white; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 0.68rem; }
+    .badge-seller { background: #EA580C; color: white; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 0.68rem; }
+
+    /* SLIDE 3: Architecture & Heading Chunker */
+    .arch-pipeline-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .arch-step-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+    .step-badge {
+      font-size: 0.66rem;
+      font-weight: 800;
+      color: var(--primary-shopee);
+      background: var(--primary-light);
+      padding: 2px 6px;
+      border-radius: 4px;
+      width: fit-content;
+    }
+    .step-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--slate-900);
+    }
+    .step-desc {
+      font-size: 0.72rem;
+      color: var(--slate-600);
+      line-height: 1.35;
+    }
+
+    .heading-showcase {
+      background: #0F172A;
+      color: #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .code-box-title {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #38BDF8;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .code-snippet {
+      font-family: monospace;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      color: #94A3B8;
+      background: #1E293B;
+      padding: 10px 14px;
+      border-radius: 6px;
+    }
+    .highlight-code { color: #F59E0B; font-weight: 700; }
+
+    /* SLIDE 4: Comparison & Benchmark */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .compare-table th {
+      background: #F8FAFC;
+      border-bottom: 2px solid var(--slate-200);
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 800;
+      color: var(--slate-700);
+    }
+    .compare-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--slate-200);
+      color: var(--slate-800);
+    }
+    .compare-table tr.highlight-row {
+      background: #FFF5F2;
+      font-weight: 700;
+    }
+    .score-badge-table {
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+    .score-high { background: var(--accent-green-bg); color: var(--accent-green); }
+    .score-med { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+    .benchmark-hero-card {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      color: white;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+    }
+    .hero-stat-box {
+      text-align: center;
+    }
+    .hero-stat-val { font-size: 1.8rem; font-weight: 900; color: #4ADE80; }
+    .hero-stat-lbl { font-size: 0.72rem; color: #94A3B8; text-transform: uppercase; font-weight: 700; }
+
+    /* SLIDE 5: Demo & Key Takeaways */
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      flex: 1;
+    }
+    .takeaway-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .takeaway-icon {
+      font-size: 1.6rem;
+      margin-bottom: 2px;
+    }
+    .takeaway-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--slate-900);
+    }
+    .takeaway-desc {
+      font-size: 0.8rem;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+
+    .action-cta-box {
+      background: linear-gradient(135deg, #FF6F00 0%, #EE4D2D 100%);
+      color: white;
+      border-radius: var(--radius-md);
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      box-shadow: 0 10px 24px rgba(238, 77, 45, 0.35);
+    }
+    .cta-text h4 { font-size: 1.1rem; font-weight: 900; }
+    .cta-text p { font-size: 0.82rem; opacity: 0.95; }
+    .cta-btn-white {
+      background: #FFFFFF;
+      color: var(--primary-shopee);
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s;
+    }
+    .cta-btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Print Optimization for PDF Export */
+    @media print {
+      body { background: white; }
+      .ambient-mesh, .slide-bottom-bar, .slide-top-bar { display: none !important; }
+      .deck-container {
+        width: 100% !important;
+        height: auto !important;
+        max-width: none !important;
+        max-height: none !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .slide {
+        position: relative !important;
+        display: flex !important;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-after: always;
+        height: 100vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-mesh">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+  </div>
+
+  <div class="deck-container">
+    <!-- Top Deck Header -->
+    <div class="slide-top-bar">
+      <div class="brand-cluster">
+        <div class="shopee-logo-pill">
+          <svg viewBox="0 0 24 24"><path d="M19 6H16V5C16 2.79 14.21 1 12 1C9.79 1 8 2.79 8 5V6H5C3.9 6 3 6.9 3 8V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V8C21 6.9 20.1 6H19ZM10 5C10 3.9 10.9 3 12 3C13.1 3 14 3.9 14 5V6H10V5ZM19 19H5V8H8V10C8 10.55 8.45 11 9 11C9.55 11 10 10.55 10 10V8H14V10C14 10.55 14.45 11 15 11C15.55 11 16 10.55 16 10V8H19V19Z"/><circle cx="12" cy="14" r="2.5" fill="#EE4D2D"/></svg>
+          <span>Shopee RAG</span>
+        </div>
+        <span class="project-name">Lab 7: Nền Tảng Dữ Liệu — Embedding & Vector Store</span>
+      </div>
+      <div class="team-badge-pill">
+        Nhóm Enigma - L3B • AICB Phase 1
+      </div>
+    </div>
+
+    <!-- Slide Viewport -->
+    <div class="slide-viewport">
+      <!-- SLIDE 1: Title & Team -->
+      <section class="slide active" id="slide-1">
+        <div class="slide-header">
+          <div class="title-banner">
+            <span class="title-tagline">Hệ Thống Trợ Lí Ảo Doanh Nghiệp (Enterprise RAG)</span>
+            <h1 class="title-main">Tra Cứu Chính Sách <span>Shopee</span> Tích Hợp Lọc Metadata & Guardrail</h1>
+            <p class="title-desc">
+              Ứng dụng kỹ thuật phân mảnh theo Tiêu đề (HeadingChunker), lập chỉ mục siêu dữ liệu đa chiều (Metadata Indexing) và cơ chế chống sinh ảo giác (Safety Guardrail).
+            </p>
+          </div>
+        </div>
+
+        <div class="team-grid">
+          <!-- Member 1: Tuấn Anh -->
+          <div class="team-card">
+            <span class="role-badge role-r4">R4 · Report & Demo</span>
+            <div class="member-name">Nguyễn Anh Tuấn</div>
+            <div class="member-msv">MSV: 2A202602700</div>
+            <p class="member-work"><strong>Teamlead:</strong> Điều phối dự án, thiết kế luồng, kiến trúc Prototype, Backend & UXUI.</p>
+          </div>
+
+          <!-- Member 2: Quang Hưng (Featured) -->
+          <div class="team-card featured">
+            <span class="role-badge role-r3">R3 · Strategy Lead</span>
+            <div class="member-name">Đặng Quang Hưng</div>
+            <div class="member-msv">MSV: 2A202602719</div>
+            <p class="member-work"><strong>Strategy Lead:</strong> Khởi tạo <code>HeadingChunker</code>, Mining evidence, chạy baseline & tối ưu Top-1 retrieval.</p>
+          </div>
+
+          <!-- Member 3: Hữu Thành -->
+          <div class="team-card">
+            <span class="role-badge role-r1">R1 · Data Lead</span>
+            <div class="member-name">Nguyễn Hữu Thành</div>
+            <div class="member-msv">MSV: 2A202602813</div>
+            <p class="member-work"><strong>AI Engineer:</strong> Thu thập 10 URL Shopee, làm sạch dữ liệu, chuẩn hóa schema và quản lý <code>sources.csv</code>.</p>
+          </div>
+
+          <!-- Member 4: Mỹ Linh -->
+          <div class="team-card">
+            <span class="role-badge role-r2">R2 · Benchmark Lead</span>
+            <div class="member-name">Hà Thị Mỹ Linh</div>
+            <div class="member-msv">MSV: 2A202602619</div>
+            <p class="member-work"><strong>BA Lead:</strong> Soạn 5 câu hỏi tình huống thực tế khó + Gold Answer trích từ quy chế gốc Shopee.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Data & Challenge -->
+      <section class="slide" id="slide-2">
+        <div class="slide-header">
+          <span class="slide-category">01 / Dữ Liệu & Thách Thức Nghiệp Vụ</span>
+          <h2 class="slide-title">10 Tài Liệu Shopee Help Center & Bài Toán Lọc Đối Tượng</h2>
+          <p class="slide-subtitle">Sự khác biệt điều khoản đối kháng giữa Người Mua (`buyer`) và Người Bán (`seller`).</p>
+        </div>
+
+        <div class="two-col-grid">
+          <!-- Col 1: Corpus Metrics -->
+          <div class="content-box">
+            <div class="box-heading"><span>📚</span> Quản Trị Tập Dữ Liệu (Corpus Quality)</div>
+            <p style="font-size: 0.82rem; color: var(--slate-600); line-height: 1.5;">
+              Thu thập từ cổng thông tin trợ giúp chính thức của Shopee Việt Nam. Làm sạch toàn bộ HTML, loại bỏ icon rác và chuẩn hóa Markdown.
+            </p>
+            <div class="stat-pills-row">
+              <div class="stat-pill">
+                <div class="stat-num">10</div>
+                <div class="stat-lbl">TÀI LIỆU CHUẨN</div>
+              </div>
+              <div class="stat-pill">
+                <div class="stat-num">858</div>
+                <div class="stat-lbl">VECTOR CHUNKS</div>
+              </div>
+              <div class="stat-pill">
+                <div class="stat-num">100%</div>
+                <div class="stat-lbl">SOURCES.CSV</div>
+              </div>
+            </div>
+            <div style="font-size: 0.78rem; background: var(--slate-50); border: 1px solid var(--slate-200); padding: 8px 12px; border-radius: 6px;">
+              <strong>Metadata Schema:</strong> <code>doc_id</code>, <code>title</code>, <code>source_url</code>, <code>retrieved_at</code>, <code>audience</code> (buyer/seller/both), <code>category</code>.
+            </div>
+          </div>
+
+          <!-- Col 2: Conflict Challenge -->
+          <div class="content-box">
+            <div class="box-heading"><span>⚠️</span> Thách Thức Xung Đột Ngữ Cảnh</div>
+            <p style="font-size: 0.82rem; color: var(--slate-600); line-height: 1.45;">
+              Cùng một câu hỏi về "hàng hoàn hư hại", quyền lợi và nghĩa vụ của hai bên hoàn toàn đối nghịch:
+            </p>
+            <div class="conflict-card">
+              <div class="conflict-row">
+                <span class="badge-buyer">BUYER</span>
+                <span>Khách chỉ cần khiếu nại trong <strong>7-15 ngày</strong>, gửi video kiện hàng lỗi.</span>
+              </div>
+              <div class="conflict-row">
+                <span class="badge-seller">SELLER</span>
+                <span>Shop nhận lại hàng vỡ phải khiếu nại trong <strong>3 ngày làm việc</strong>, nộp video 6 mặt.</span>
+              </div>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--primary-shopee); font-weight: 700;">
+              ➔ Giải pháp: Bắt buộc áp dụng <code>metadata_filter</code> theo <code>audience</code> trước khi tính cosine similarity để triệt tiêu 100% nhiễu chéo.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Architecture & HeadingChunker -->
+      <section class="slide" id="slide-3">
+        <div class="slide-header">
+          <span class="slide-category">02 / Kiến Trúc Hệ Thống & Chiến Lược</span>
+          <h2 class="slide-title">Pipeline RAG Toàn Diện & Đột Phá <code>HeadingChunker</code></h2>
+          <p class="slide-subtitle">Bảo toàn cấu trúc phân cấp điều khoản luật TMĐT và kiểm soát an toàn.</p>
+        </div>
+
+        <div class="arch-pipeline-row">
+          <div class="arch-step-card">
+            <span class="step-badge">BƯỚC 1</span>
+            <div class="step-title">Tiếp Nhận & Intent</div>
+            <p class="step-desc">Xác định đối tượng Buyer/Seller và ý định (đổi ý, vỡ, mất hàng).</p>
+          </div>
+          <div class="arch-step-card">
+            <span class="step-badge">BƯỚC 2</span>
+            <div class="step-title">Safety Guardrail</div>
+            <p class="step-desc">Phát hiện chủ đề lạc đề (Messi, ẩm thực...). Chặn ngay tại cổng.</p>
+          </div>
+          <div class="arch-step-card">
+            <span class="step-badge">BƯỚC 3</span>
+            <div class="step-title">Heading Chunker</div>
+            <p class="step-desc">Truy xuất véc-tơ có gắn lại Header điều khoản mẹ vào mảnh con.</p>
+          </div>
+          <div class="arch-step-card">
+            <span class="step-badge">BƯỚC 4</span>
+            <div class="step-title">Metadata Filter</div>
+            <p class="step-desc">Lọc không gian tìm kiếm: <code>where audience = buyer/seller</code>.</p>
+          </div>
+          <div class="arch-step-card">
+            <span class="step-badge">BƯỚC 5</span>
+            <div class="step-title">Grounded Schema</div>
+            <p class="step-desc">Sinh câu trả lời cố định: Quyết định, Điều kiện, Ngoại lệ, Citation.</p>
+          </div>
+        </div>
+
+        <!-- Heading Chunker Code Showcase -->
+        <div class="heading-showcase">
+          <div>
+            <div class="code-box-title">Vấn đề của Chunker thông thường (Fixed Size)</div>
+            <div class="code-snippet">
+              [Chunk 41]: "...thời hạn là 15 ngày."<br>
+              ➔ <span style="color:#EF4444;">Mất tiêu đề gốc!</span> Mô hình không biết 15 ngày là của Shopee Mall hay Shop thường.
+            </div>
+          </div>
+          <div>
+            <div class="code-box-title">Giải pháp của <code>HeadingChunker</code> (Đặng Quang Hưng)</div>
+            <div class="code-snippet">
+              <span class="highlight-code">### Điều 1. Chính sách Trả hàng Shopee Mall</span><br>
+              [Sub-chunk]: "...thời hạn là 15 ngày."<br>
+              ➔ <span style="color:#4ADE80;">Bảo toàn 100% ngữ cảnh!</span> Tăng độ khớp cosine lên 0.45+.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Comparison & Benchmark -->
+      <section class="slide" id="slide-4">
+        <div class="slide-header">
+          <span class="slide-category">03 / Đánh Giá Thực Nghiệm & So Sánh</span>
+          <h2 class="slide-title">So Sánh 4 Chiến Lược & Kết Quả Benchmark Tuyệt Đối</h2>
+          <p class="slide-subtitle">Đánh giá trên bộ kiểm thử 5 câu hỏi tình huống phức tạp có Gold Answer.</p>
+        </div>
+
+        <!-- Table Comparison -->
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Thành viên</th>
+              <th>Vai trò</th>
+              <th>Chiến lược Chunking</th>
+              <th>Điểm /10</th>
+              <th>Ưu điểm nổi bật</th>
+              <th>Hạn chế còn tồn tại</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Nguyễn Hữu Thành</td>
+              <td>R1 · Data</td>
+              <td><code>FixedSizeChunker</code> (overlap 50)</td>
+              <td><span class="score-badge-table score-med">7.0 / 10</span></td>
+              <td>Độ dài chunk đồng đều, chạy nhanh</td>
+              <td>Dễ cắt ngang điều khoản quan trọng</td>
+            </tr>
+            <tr>
+              <td>Hà Thị Mỹ Linh</td>
+              <td>R2 · Bench</td>
+              <td><code>RecursiveChunker</code></td>
+              <td><span class="score-badge-table score-med">8.5 / 10</span></td>
+              <td>Giữ trọn đoạn văn bản xuống dòng</td>
+              <td>Chunk vụn khi có nhiều dòng trắng</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>Đặng Quang Hưng</strong></td>
+              <td><strong>R3 · Strategy</strong></td>
+              <td><strong><code>HeadingChunker</code> (Tối ưu nhất)</strong></td>
+              <td><span class="score-badge-table score-high">9.5 / 10</span></td>
+              <td><strong>Tự động đính kèm Header mẹ vào từng mảnh con</strong></td>
+              <td>Cần xử lý regex phân tách cấu trúc</td>
+            </tr>
+            <tr>
+              <td>Nguyễn Anh Tuấn</td>
+              <td>R4 · Report</td>
+              <td><code>SentenceChunker</code> (max 3 câu)</td>
+              <td><span class="score-badge-table score-med">8.0 / 10</span></td>
+              <td>Ngữ pháp câu hoàn chỉnh, tự nhiên</td>
+              <td>Kích thước chunk không đồng nhất</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Benchmark Metric Hero Banner -->
+        <div class="benchmark-hero-card">
+          <div class="hero-stat-box">
+            <div class="hero-stat-val">10.0 / 10.0</div>
+            <div class="hero-stat-lbl">ĐIỂM BENCHMARK RETRIEVAL</div>
+          </div>
+          <div class="hero-stat-box">
+            <div class="hero-stat-val">100%</div>
+            <div class="hero-stat-lbl">TOP-1 MATCH RATIO</div>
+          </div>
+          <div class="hero-stat-box">
+            <div class="hero-stat-val">42 / 42</div>
+            <div class="hero-stat-lbl">UNIT TESTS PASSED (0.08S)</div>
+          </div>
+          <div class="hero-stat-box">
+            <div class="hero-stat-val">0%</div>
+            <div class="hero-stat-lbl">HALLUCINATION RATE</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Takeaways & Demo Action -->
+      <section class="slide" id="slide-5">
+        <div class="slide-header">
+          <span class="slide-category">04 / Bài Học Rút Ra & Trình Diễn</span>
+          <h2 class="slide-title">Độ Tin Cậy Doanh Nghiệp & Sẵn Sàng Live Demo</h2>
+          <p class="slide-subtitle">Ba bài học đắt giá khi xây dựng hệ thống RAG cho văn bản pháp lý / quy định.</p>
+        </div>
+
+        <div class="takeaway-grid">
+          <div class="takeaway-card">
+            <div class="takeaway-icon">🎯</div>
+            <div class="takeaway-title">Metadata Pre-filter Là Cốt Lõi</div>
+            <p class="takeaway-desc">
+              Không thể chỉ dựa vào véc-tơ ngữ nghĩa đơn thuần. Tiền lọc theo <code>audience</code> giúp ngăn ngừa 100% tình trạng lấy nhầm chính sách người bán trả lời cho người mua.
+            </p>
+          </div>
+          <div class="takeaway-card">
+            <div class="takeaway-icon">🛡️</div>
+            <div class="takeaway-title">No Evidence → No Answer</div>
+            <p class="takeaway-desc">
+              Tuân thủ nghiêm ngặt nguyên tắc: Không có bằng chứng trong 10 tài liệu thì từ chối trả lời. Kết hợp Out-of-Domain Guardrail loại bỏ hoàn toàn hiện tượng 'bịa đặt'.
+            </p>
+          </div>
+          <div class="takeaway-card">
+            <div class="takeaway-icon">📑</div>
+            <div class="takeaway-title">Heading Chunker Giữ Ngữ Cảnh</div>
+            <p class="takeaway-desc">
+              Văn bản pháp lý luôn có cấu trúc Điều/Khoản. Việc gắn lại tiêu đề mục vào từng chunk con giúp điểm tương đồng Cosine ổn định và trích xuất đúng 100% Top-1.
+            </p>
+          </div>
+        </div>
+
+        <!-- Action Callout Box -->
+        <div class="action-cta-box">
+          <div class="cta-text">
+            <h4>Sẵn Sàng Trình Diễn Live Demo Giao Diện Shopee RAG</h4>
+            <p>Kiểm chứng trực tiếp 5 câu hỏi Benchmark chuẩn, chế độ lọc Buyer/Seller và bộ lọc chống ảo giác.</p>
+          </div>
+          <a href="demo.html" target="_blank" class="cta-btn-white">
+            <span>🚀 Mở Giao Diện Demo (demo.html)</span>
+            <span>➤</span>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Bottom Deck Controls -->
+    <div class="slide-bottom-bar">
+      <div class="nav-left">
+        <div class="slide-counter" id="slide-counter">Trang 1 / 5</div>
+        <div class="progress-dots" id="progress-dots">
+          <div class="dot active" onclick="goToSlide(1)"></div>
+          <div class="dot" onclick="goToSlide(2)"></div>
+          <div class="dot" onclick="goToSlide(3)"></div>
+          <div class="dot" onclick="goToSlide(4)"></div>
+          <div class="dot" onclick="goToSlide(5)"></div>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button type="button" class="nav-btn" id="prev-btn" onclick="prevSlide()">◀ Trang trước</button>
+        <button type="button" class="nav-btn" id="next-btn" onclick="nextSlide()">Trang sau ▶</button>
+        <a href="demo.html" target="_blank" class="nav-btn demo-link-btn">✨ Live Demo</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 5;
+
+    function showSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
+
+      currentSlide = index;
+
+      document.querySelectorAll(".slide").forEach((el, i) => {
+        el.classList.toggle("active", (i + 1) === currentSlide);
+      });
+
+      document.querySelectorAll(".dot").forEach((el, i) => {
+        el.classList.toggle("active", (i + 1) === currentSlide);
+      });
+
+      document.getElementById("slide-counter").textContent = `Trang ${currentSlide} / ${totalSlides}`;
+      document.getElementById("prev-btn").style.opacity = currentSlide === 1 ? "0.4" : "1";
+      document.getElementById("next-btn").style.opacity = currentSlide === totalSlides ? "0.4" : "1";
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+    }
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
+        nextSlide();
+      } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        prevSlide();
+      }
+    });
+
+    // Initialize
+    showSlide(1);
+  </script>
+</body>
+</html>
