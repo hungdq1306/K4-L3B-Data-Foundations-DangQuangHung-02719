@@ -1,6 +1,6 @@
 # Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
-**Họ tên:** Đặng Quang Hùng (02719)
+**Họ tên:** Đặng Quang Hưng (MSV: 2A202602719)
 **Nhóm:** Nhóm 1 - L3B
 **Ngày:** 20/09/2026
 
