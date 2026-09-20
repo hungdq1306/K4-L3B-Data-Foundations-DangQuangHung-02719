@@ -1,6 +1,6 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
-**Nhóm:** Nhóm 1 - L3B
+**Nhóm:** Enigma - L3B
 **Thành viên & Phân vai (4 người):**
 1. **Nguyễn Anh Tuấn (MSV: 2A202602700)** — Teamlead | Vai R4: Report & Demo Lead (Điều phối dự án, Flow, Prototype, Backend, UXUI, gom kết quả và dẫn thuyết trình demo)
 2. **Đặng Quang Hưng (MSV: 2A202602719)** — Member | Vai R3: Strategy Lead (Mining evidence, chunk theo heading `HeadingChunker`, chạy baseline nhóm)
