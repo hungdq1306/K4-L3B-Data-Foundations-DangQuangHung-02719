@@ -148,6 +148,48 @@ def compute_similarity(vec_a: list[float], vec_b: list[float]) -> float:
     return _dot(vec_a, vec_b) / (math.sqrt(_dot(vec_a, vec_a)) * math.sqrt(_dot(vec_b, vec_b)))
 
 
+class HeadingChunker:
+    """
+    Chunk markdown documents by headings (#, ##, ###).
+
+    If a section is larger than chunk_size, fallback to recursive chunking,
+    re-attaching the section heading to each sub-chunk for context preservation.
+    """
+
+    def __init__(self, chunk_size: int = 500) -> None:
+        self.chunk_size = chunk_size
+        self._recursive = RecursiveChunker(chunk_size=chunk_size)
+
+    def chunk(self, text: str) -> list[str]:
+        if not text.strip():
+            return []
+
+        heading_pattern = r"(?=(?:^|\n)#{1,6}\s+)"
+        sections = re.split(heading_pattern, text)
+        sections = [s.strip() for s in sections if s.strip()]
+
+        if not sections:
+            return self._recursive.chunk(text)
+
+        chunks: list[str] = []
+        for section in sections:
+            if len(section) <= self.chunk_size:
+                chunks.append(section)
+            else:
+                lines = section.split("\n", 1)
+                heading = lines[0] if lines[0].startswith("#") else ""
+                body = lines[1] if len(lines) > 1 else section
+
+                sub_chunks = self._recursive.chunk(body)
+                for sub in sub_chunks:
+                    if heading and not sub.startswith("#"):
+                        chunks.append(f"{heading}\n{sub}")
+                    else:
+                        chunks.append(sub)
+
+        return chunks
+
+
 class ChunkingStrategyComparator:
     """Run all built-in chunking strategies and compare their results."""
 

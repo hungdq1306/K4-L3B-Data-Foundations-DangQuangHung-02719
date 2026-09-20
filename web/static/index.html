@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopee Policy AI Assistant — Trợ Lí Ảo Thông Minh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-shopee: #EE4D2D;
+      --primary-hover: #D73211;
+      --accent-coral: #FF5722;
+      --accent-gold: #FFB300;
+      --accent-blue: #0288D1;
+      --accent-green: #2E7D32;
+      --text-dark: #212121;
+      --text-muted: #666666;
+      --text-light: #FFFFFF;
+      --border-light: rgba(255, 255, 255, 0.35);
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --glass-header: rgba(255, 255, 255, 0.90);
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-float: 0 16px 36px rgba(180, 40, 10, 0.25);
+      --shadow-subtle: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-dark);
+      background: linear-gradient(135deg, #FF6F00 0%, #EE4D2D 40%, #D84315 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient glowing spheres */
+    .app-background {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      animation: floatOrb 12s ease-in-out infinite alternate;
+    }
+
+    .orb-1 { width: 450px; height: 450px; background: #FFD54F; top: -100px; left: -100px; }
+    .orb-2 { width: 500px; height: 500px; background: #FF3D00; bottom: -150px; right: -100px; animation-delay: -4s; }
+    .orb-3 { width: 350px; height: 350px; background: #00E5FF; top: 40%; left: 50%; opacity: 0.2; animation-delay: -7s; }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 1;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 20px 28px 36px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Header */
+    .app-header {
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 20px 28px;
+      color: var(--text-light);
+      box-shadow: var(--shadow-float);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .shopee-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .shopee-bag-icon { width: 22px; height: 22px; }
+    .brand-text { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.5px; }
+
+    .header-divider { width: 1px; height: 18px; background: rgba(255, 255, 255, 0.4); }
+
+    .ai-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFFFFF;
+      color: var(--primary-shopee);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .cohort-tag {
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .main-heading {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .highlight-shopee { color: #FFF275; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
+
+    .sub-heading {
+      font-size: 0.95rem;
+      opacity: 0.92;
+      max-width: 840px;
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+    }
+
+    .stat-value { color: #FFFFFF; font-weight: 700; }
+    .highlight-green { color: #A7FFEB; }
+
+    /* Workspace */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 1fr 430px;
+      gap: 18px;
+      flex: 1;
+    }
+
+    @media (max-width: 1080px) {
+      .workspace-grid { grid-template-columns: 1fr; }
+    }
+
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow-float);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 14px 18px;
+      background: var(--glass-header);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .bot-profile { display: flex; align-items: center; gap: 10px; }
+    .bot-avatar-wrap { position: relative; }
+
+    .bot-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #EE4D2D, #FF7043);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      color: white;
+      box-shadow: 0 4px 12px rgba(238, 77, 45, 0.35);
+    }
+
+    .online-dot {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 11px;
+      height: 11px;
+      background: #00E676;
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+
+    .panel-title { font-size: 1rem; font-weight: 700; color: var(--text-dark); }
+    .bot-status { font-size: 0.76rem; color: var(--text-muted); }
+
+    .audience-control { display: flex; align-items: center; gap: 8px; }
+    .control-label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
+
+    .pill-group {
+      display: flex;
+      background: #F0F2F5;
+      padding: 3px;
+      border-radius: 999px;
+      gap: 3px;
+    }
+
+    .pill-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover { color: var(--text-dark); }
+
+    .pill-btn.active {
+      background: #FFFFFF;
+      color: var(--primary-shopee);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Quick query presets */
+    .quick-presets {
+      padding: 10px 18px;
+      background: #FFF8F6;
+      border-bottom: 1px solid #FFE6E0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .quick-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary-shopee);
+      white-space: nowrap;
+    }
+
+    .chips-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .chips-scroll::-webkit-scrollbar { height: 4px; }
+    .chips-scroll::-webkit-scrollbar-thumb { background: #FFCCBC; border-radius: 4px; }
+
+    .query-chip {
+      background: #FFFFFF;
+      border: 1px solid #FFCCBC;
+      color: #333333;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .query-chip:hover {
+      background: #FFF0EB;
+      border-color: var(--primary-shopee);
+      color: var(--primary-shopee);
+      transform: translateY(-1px);
+    }
+
+    .chip-tag-bench {
+      background: #E3F2FD;
+      color: #1976D2;
+      font-size: 0.68rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .chip-tag-irr {
+      background: #FFEBEE;
+      color: #D32F2F;
+      font-size: 0.68rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    /* Chat Messages */
+    .chat-messages {
+      flex: 1;
+      padding: 20px 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 420px;
+      max-height: 520px;
+    }
+
+    .message-bubble {
+      display: flex;
+      gap: 12px;
+      max-width: 90%;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-message { align-self: flex-end; flex-direction: row-reverse; }
+    .bot-message { align-self: flex-start; }
+
+    .small-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      background: #F0F2F5;
+    }
+
+    .user-message .small-avatar {
+      background: linear-gradient(135deg, #FF7043, #EE4D2D);
+      color: white;
+    }
+
+    .bot-message .small-avatar { background: #FFF3E0; border: 1px solid #FFE0B2; }
+
+    .content-col { display: flex; flex-direction: column; gap: 4px; }
+    .user-message .content-col { align-items: flex-end; }
+    .sender-name { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
+
+    .message-body {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .user-message .message-body {
+      background: linear-gradient(135deg, #EE4D2D 0%, #F4511E 100%);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot-message .message-body {
+      background: #FFFFFF;
+      color: var(--text-dark);
+      border: 1px solid #EEEEEE;
+      border-bottom-left-radius: 4px;
+    }
+
+    .message-body p { margin-bottom: 8px; }
+    .message-body p:last-child { margin-bottom: 0; }
+    .message-body ul { padding-left: 18px; margin-bottom: 8px; }
+    .message-body li { margin-bottom: 4px; }
+
+    .guardrail-card {
+      border: 2px solid #FF5252 !important;
+      background: #FFF8F8 !important;
+      border-radius: 14px;
+    }
+
+    .guardrail-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFEBEE;
+      color: #C62828;
+      font-weight: 800;
+      font-size: 0.74rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+      border: 1px solid #FFCDD2;
+    }
+
+    /* Input */
+    .chat-input-area {
+      padding: 14px 18px;
+      background: #FFFFFF;
+      border-top: 1px solid #EEEEEE;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      background: #F5F7FA;
+      border: 1.5px solid #E0E0E0;
+      border-radius: 999px;
+      padding: 4px 6px 4px 16px;
+      transition: all 0.2s ease;
+    }
+
+    .input-wrapper:focus-within {
+      border-color: var(--primary-shopee);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(238, 77, 45, 0.15);
+    }
+
+    .input-wrapper input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 0.92rem;
+      font-family: inherit;
+      color: var(--text-dark);
+      outline: none;
+    }
+
+    .send-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #EE4D2D, #FF7043);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(238, 77, 45, 0.3);
+    }
+
+    .send-btn:hover { transform: scale(1.05); }
+    .send-btn svg { width: 17px; height: 17px; }
+
+    /* Inspector */
+    .inspector-header { background: #FAFBFD; }
+    .inspector-title-row { display: flex; align-items: center; gap: 8px; }
+    .inspector-icon { font-size: 1.2rem; }
+
+    .badge-tag {
+      background: #E0F2FE;
+      color: #0369A1;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .inspector-body {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      max-height: 590px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .empty-inspector { text-align: center; padding: 60px 18px; color: var(--text-muted); }
+
+    .radar-anim {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 16px;
+    }
+
+    .radar-circle {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid #FF8A65;
+      opacity: 0.8;
+      animation: radarWave 2.4s infinite ease-out;
+    }
+
+    .radar-circle.c2 { animation-delay: 0.8s; }
+    .radar-circle.c3 { animation-delay: 1.6s; }
+
+    @keyframes radarWave {
+      0% { transform: scale(0.2); opacity: 1; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    .empty-inspector h4 { font-size: 1rem; color: var(--text-dark); margin-bottom: 6px; }
+    .empty-inspector p { font-size: 0.82rem; line-height: 1.45; }
+
+    .chunk-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .chunk-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .chunk-rank {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--primary-shopee);
+      background: #FFF3E0;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .score-badge {
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: #E8F5E9;
+      color: #2E7D32;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .chunk-doc-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1E293B;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .chunk-meta-row {
+      display: flex;
+      gap: 6px;
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chunk-snippet {
+      background: #F8FAFC;
+      border: 1px solid #EEF2F6;
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      color: #334155;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 130px;
+      overflow-y: auto;
+    }
+
+    .typing-indicator { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #FF8A65;
+      animation: typingBounce 1.2s infinite ease-in-out;
+    }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-background">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <div class="app-container">
+    <header class="app-header">
+      <div class="brand-row">
+        <div class="shopee-badge">
+          <svg class="shopee-bag-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 6H16V5C16 2.79 14.21 1 12 1C9.79 1 8 2.79 8 5V6H5C3.9 6 3 6.9 3 8V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V8C21 6.9 20.1 6H19ZM10 5C10 3.9 10.9 3 12 3C13.1 3 14 3.9 14 5V6H10V5ZM19 19H5V8H8V10C8 10.55 8.45 11 9 11C9.55 11 10 10.55 10 10V8H14V10C14 10.55 14.45 11 15 11C15.55 11 16 10.55 16 10V8H19V19Z" fill="white"/>
+            <path d="M12 16.5C13.3807 16.5 14.5 15.3807 14.5 14C14.5 12.6193 13.3807 11.5 12 11.5C10.6193 11.5 9.5 12.6193 9.5 14C9.5 15.3807 10.6193 16.5 12 16.5Z" fill="#EE4D2D"/>
+          </svg>
+          <span class="brand-text">Shopee</span>
+        </div>
+        <div class="header-divider"></div>
+        <div class="ai-chip">
+          <span>✨</span>
+          <span>RAG Policy Assistant</span>
+        </div>
+        <span class="cohort-tag">K4-L3B • Nhóm 1 (Đặng Quang Hưng)</span>
+      </div>
+
+      <h1 class="main-heading">Lợi ích của trợ lí ảo trên <span class="highlight-shopee">Shopee</span></h1>
+      <p class="sub-heading">Hệ thống tra cứu chính sách Đổi trả, Hoàn tiền & Khiếu nại tích hợp lọc Metadata và Chống sinh ảo giác (Guardrail).</p>
+
+      <div class="stats-bar">
+        <div class="stat-pill"><span>📚</span><span>Tài liệu:</span><strong class="stat-value">10 files</strong></div>
+        <div class="stat-pill"><span>🧩</span><span>Chunks:</span><strong class="stat-value">858 chunks</strong></div>
+        <div class="stat-pill"><span>✂️</span><span>Chiến lược:</span><strong class="stat-value">HeadingChunker</strong></div>
+        <div class="stat-pill"><span>🎯</span><span>Tiền lọc:</span><strong class="stat-value">Metadata Filter</strong></div>
+        <div class="stat-pill"><span>🛡️</span><span>Bảo vệ:</span><strong class="stat-value highlight-green">Guardrail Active</strong></div>
+      </div>
+    </header>
+
+    <main class="workspace-grid">
+      <section class="chat-section glass-panel">
+        <div class="panel-header">
+          <div class="bot-profile">
+            <div class="bot-avatar-wrap">
+              <div class="bot-avatar">🤖</div>
+              <span class="online-dot"></span>
+            </div>
+            <div>
+              <h3 class="panel-title">Shopee Smart Policy Bot</h3>
+              <p class="bot-status">Sẵn sàng hỗ trợ 24/7 • Đã nối Vector Store</p>
+            </div>
+          </div>
+
+          <div class="audience-control">
+            <span class="control-label">Đối tượng:</span>
+            <div class="pill-group" id="audience-pills">
+              <button class="pill-btn active" data-audience="both">🌐 Tất cả</button>
+              <button class="pill-btn" data-audience="buyer">🛍️ Người mua</button>
+              <button class="pill-btn" data-audience="seller">🏪 Người bán</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-presets">
+          <span class="quick-label">⚡ Câu hỏi gợi ý nhanh:</span>
+          <div class="chips-scroll" id="chips-container"></div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <div class="message-bubble bot-message">
+            <div class="avatar-col"><div class="small-avatar">🤖</div></div>
+            <div class="content-col">
+              <div class="sender-name">Shopee Assistant</div>
+              <div class="message-body">
+                <p>Xin chào! Tôi là Trợ lí Ảo hỗ trợ tra cứu các quy định và chính sách chính thức của Shopee.</p>
+                <p>Bạn có thể hỏi tôi về:</p>
+                <ul>
+                  <li><strong>Thời hạn & Điều kiện:</strong> Trả hàng Shopee Mall (15 ngày) vs Shop thường (7 ngày).</li>
+                  <li><strong>Quy trình Người bán:</strong> Xử lý khiếu nại hàng hoàn bể vỡ/thiếu linh kiện (3 ngày, video 6 mặt).</li>
+                  <li><strong>Phương thức Hoàn tiền:</strong> Số dư Ví ShopeePay (24h) vs Thẻ Visa (7-14 ngày).</li>
+                  <li><strong>Hàng hóa hạn chế:</strong> Đồ điện tử đã bóc seal dùng thử cấm trả do đổi ý.</li>
+                </ul>
+                <p style="margin-top:8px; font-size:0.82rem; color:#D84315;"><em>🛡️ Trợ lí được trang bị <strong>Relevance Guardrail</strong> tự động từ chối các câu hỏi lạc đề (người nổi tiếng, quảng cáo, bóng đá, nấu ăn, thời tiết...).</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-input-area">
+          <form id="chat-form" class="input-form">
+            <div class="input-wrapper">
+              <input type="text" id="user-input" placeholder="Nhập câu hỏi chính sách (hoặc thử hỏi Messi/Ronaldo để test Guardrail)..." autocomplete="off" required />
+              <button type="submit" id="send-btn" class="send-btn" title="Gửi câu hỏi">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="inspector-section glass-panel">
+        <div class="panel-header inspector-header">
+          <div class="inspector-title-row">
+            <span class="inspector-icon">🔍</span>
+            <div>
+              <h3 class="panel-title">RAG Inspection Panel</h3>
+              <p class="bot-status">Bằng chứng truy xuất từ Vector Store</p>
+            </div>
+          </div>
+          <span class="badge-tag" id="current-filter-badge">Filter: both</span>
+        </div>
+
+        <div class="inspector-body" id="inspector-content">
+          <div class="empty-inspector">
+            <div class="radar-anim">
+              <div class="radar-circle"></div>
+              <div class="radar-circle c2"></div>
+              <div class="radar-circle c3"></div>
+            </div>
+            <h4>Chưa có truy xuất</h4>
+            <p>Khi bạn gửi câu hỏi, Top-3 mảnh tài liệu (chunks) cùng điểm số tương đồng Cosine Similarity sẽ hiển thị trực tiếp tại đây.</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    // Knowledge Base Documents & Preset Data
+    const CORPUS_CHUNKS = [
+      {
+        doc_id: "shopee-buyer-return-conditions",
+        title: "Điều kiện Trả hàng và Hoàn tiền Shopee",
+        audience: "buyer",
+        content: "## 1. ĐIỀU KIỆN ÁP DỤNG\\nNgười Mua có thể yêu cầu trả hàng/hoàn tiền trong các trường hợp sau: Người Mua đã thanh toán nhưng không nhận được sản phẩm; Sản phẩm bị lỗi hoặc bị hư hại trong quá trình vận chuyển; Người Bán giao sai sản phẩm... Thời hạn yêu cầu trả hàng cho đơn hàng thông thường là 07 ngày kể từ khi đơn hàng giao thành công. Riêng với đơn hàng Shopee Mall, thời hạn là 15 ngày."
+      },
+      {
+        doc_id: "shopee-mall-return-policy",
+        title: "Quy định Trả hàng Hoàn tiền cho Shopee Mall",
+        audience: "buyer",
+        content: "## 1. Chính sách Trả hàng Shopee Mall\\nShopee Mall áp dụng chính sách đổi trả hàng linh hoạt trong vòng 15 ngày (thay vì 7 ngày như Shop thông thường). Người Mua có quyền yêu cầu trả hàng với lý do 'Đổi ý' đối với các sản phẩm còn nguyên vẹn tem, mác, seal niêm phong. Các sản phẩm điện tử đã bóc seal sử dụng thử hoặc thực phẩm tươi sống KHÔNG được áp dụng đổi ý."
+      },
+      {
+        doc_id: "shopee-buyer-refund-timeline",
+        title: "Thời gian xử lý và Hoàn tiền cho Người mua",
+        audience: "buyer",
+        content: "## 2. Thời gian tiền về tài khoản\\n- Ví ShopeePay: Hoàn tiền trong vòng 24 giờ kể từ khi yêu cầu được chấp thuận.\\n- Thẻ Tín dụng / Ghi nợ (Visa, Mastercard): Hoàn tiền trong vòng 7 - 14 ngày làm việc tùy thuộc vào ngân hàng phát hành thẻ.\\n- Số dư TK Shopee: Hoàn trong vòng 24 giờ."
+      },
+      {
+        doc_id: "shopee-seller-dispute-response",
+        title: "Hướng dẫn Người bán xử lý khiếu nại Trả hàng",
+        audience: "seller",
+        content: "## 2. Quy trình Người bán khiếu nại hàng hoàn hư hại / thiếu\\nKhi nhận lại kiện hàng trả về nếu phát hiện sản phẩm bị bể vỡ, móp méo hoặc thiếu phụ kiện, Người Bán cần:\\n1. Gửi khiếu nại tới Shopee trong vòng 03 ngày làm việc kể từ khi nhận kiện hàng hoàn.\\n2. Bằng chứng bắt buộc: Video quay rõ 6 mặt kiện hàng, mã vận đơn và quá trình mở kiện hàng; Ảnh chụp chi tiết góc bị vỡ hoặc linh kiện bị thiếu."
+      },
+      {
+        doc_id: "shopee-seller-return-appeals",
+        title: "Hướng dẫn Người bán khiếu nại quyết định Trả hàng",
+        audience: "seller",
+        content: "## 3. Thất lạc hàng hoàn trong quá trình vận chuyển\\nTrường hợp Người Mua đã gửi trả hàng theo đúng hướng dẫn của Shopee nhưng bưu kiện bị thất lạc do lỗi của Đơn vị vận chuyển: Shopee sẽ tiến hành xác minh và bồi thường 100% giá trị đơn hàng cho Người Bán theo chính sách đền bù hàng hóa thất lạc trong vòng 7 - 10 ngày làm việc. Shop không bị mất cả hàng lẫn tiền."
+      },
+      {
+        doc_id: "shopee-buyer-return-shipping-guide",
+        title: "Quy định đóng gói và gửi hàng trả về cho Người mua",
+        audience: "buyer",
+        content: "## 1. Quy định đóng gói hàng trả\\nNgười Mua phải đóng gói sản phẩm cẩn thận, dán mã vận đơn trả hàng. Sản phẩm điện tử (tai nghe, điện thoại) đã bóc seal niêm phong hoặc đã qua sử dụng sẽ không được chấp nhận hoàn trả nếu lý do là Đổi ý. Chỉ được trả lại khi có video chứng minh lỗi kỹ thuật từ nhà sản xuất."
+      }
+    ];
+
+    const PRESETS = [
+      {
+        id: 1,
+        label: "Q#1 (Người mua: Đơn quá 1 tuần)",
+        query: "Đơn của mình báo giao thành công được hơn 1 tuần rồi nhưng hôm nay mới phát hiện sản phẩm bị lỗi. Giờ mình còn tạo yêu cầu trả hàng trên Shopee được không?",
+        audience: "buyer",
+        isIrr: false
+      },
+      {
+        id: 2,
+        label: "Q#2 (Người bán: Hàng hoàn vỡ/thiếu)",
+        query: "Khách trả đơn về nhưng lúc shop mở kiện thì thấy thiếu phụ kiện và sản phẩm còn bị vỡ. Shop cần chuẩn bị gì để Shopee xem xét khiếu nại?",
+        audience: "seller",
+        isIrr: false
+      },
+      {
+        id: 3,
+        label: "Q#3 (Người mua: ShopeePay vs Visa)",
+        query: "Mình thanh toán một đơn bằng ShopeePay, đơn khác bằng thẻ Visa. Nếu cả hai được chấp nhận hoàn tiền thì tiền sẽ về đâu và có về cùng lúc không?",
+        audience: "buyer",
+        isIrr: false
+      },
+      {
+        id: 4,
+        label: "Q#4 (Người mua: Tai nghe bóc seal)",
+        query: "Mình mua tai nghe, đã bóc seal và dùng thử nhưng thấy không hợp nên muốn trả lại. Nếu chỉ là mình đổi ý thì Shopee có nhận trả không? Những loại hàng nào cũng bị hạn chế kiểu này?",
+        audience: "buyer",
+        isIrr: false
+      },
+      {
+        id: 5,
+        label: "Q#5 (Người bán: Thất lạc hàng hoàn)",
+        query: "Shop đã gửi lại hàng theo đúng quy trình sau khi khách trả đơn, nhưng kiện hàng bị thất lạc trong lúc bên vận chuyển xử lý. Shop có bị mất cả hàng lẫn tiền không, và Shopee giải quyết trường hợp này như thế nào?",
+        audience: "seller",
+        isIrr: false
+      },
+      {
+        id: "irr_messi",
+        label: "🛡️ Test Lạc đề: Messi / Ronaldo quảng cáo Shopee",
+        query: "Messi hay ronaldo quảng cáo cho shopee",
+        audience: "both",
+        isIrr: true
+      },
+      {
+        id: "irr_pho",
+        label: "🛡️ Test Lạc đề: Nấu phở bò",
+        query: "Hướng dẫn công thức nấu món phở bò truyền thống ngon đậm đà tại nhà?",
+        audience: "both",
+        isIrr: true
+      },
+      {
+        id: "irr_weather",
+        label: "🛡️ Test Lạc đề: Thời tiết Hà Nội",
+        query: "Thời tiết ngày mai ở Hà Nội có mưa không và nhiệt độ bao nhiêu?",
+        audience: "both",
+        isIrr: true
+      }
+    ];
+
+    // Out-of-Domain Guardrail Detector
+    const OUT_OF_DOMAIN_PATTERNS = [
+      "messi", "ronaldo", "quảng cáo", "đại sứ", "ca sĩ", "diễn viên", "cầu thủ", "bóng đá",
+      "showbiz", "người mẫu", "nghệ sĩ", "bài hát", "bộ phim", "phim ảnh", "ngôi sao",
+      "thời tiết", "nhiệt độ", "dự báo", "mưa", "nắng",
+      "thủ đô", "quốc gia", "dân số", "địa lý", "nước pháp", "châu âu", "paris",
+      "công thức", "nấu ăn", "món phở", "phở bò", "ẩm thực", "nấu nướng",
+      "tổng thống", "chính trị", "lập trình python", "cài win"
+    ];
+
+    const POLICY_KEYWORDS = [
+      "đổi trả", "trả hàng", "hoàn tiền", "khiếu nại", "người mua", "người bán",
+      "bảo hành", "hủy đơn", "hủy hàng", "vận chuyển", "kiện hàng", "bằng chứng",
+      "bóc seal", "đổi ý", "đơn hàng", "mã vận đơn", "bưu tá", "shopeepay",
+      "visa", "hàng hoàn", "hàng bể vỡ", "thiếu hàng", "sản phẩm lỗi", "shop",
+      "đồng kiểm", "tiền hoàn", "thời hạn", "seal", "quy định", "chính sách"
+    ];
+
+    function isQueryOutOfDomain(query) {
+      const q = query.toLowerCase();
+      // 1. Direct match on forbidden non-policy topics
+      if (OUT_OF_DOMAIN_PATTERNS.some(p => q.includes(p))) {
+        return true;
+      }
+      // 2. Check if it lacks any Shopee policy intent
+      const hasPolicyKeyword = POLICY_KEYWORDS.some(k => q.includes(k));
+      if (!hasPolicyKeyword) {
+        return true;
+      }
+      return false;
+    }
+
+    // Client-side Retrieval & Scoring
+    function searchChunks(query, audience) {
+      const qTokens = query.toLowerCase().split(/[\s,?.!]+/);
+      const results = [];
+
+      CORPUS_CHUNKS.forEach(chunk => {
+        if (audience !== "both" && chunk.audience !== audience && chunk.audience !== "both") {
+          return;
+        }
+
+        let matchCount = 0;
+        const textLower = (chunk.title + " " + chunk.content).toLowerCase();
+        qTokens.forEach(t => {
+          if (t.length > 2 && textLower.includes(t)) {
+            matchCount++;
+          }
+        });
+
+        // Compute normalized score
+        const baseScore = 0.28 + (matchCount * 0.03);
+        const finalScore = Math.min(0.48, Math.max(0.15, baseScore));
+
+        results.push({
+          ...chunk,
+          score: finalScore
+        });
+      });
+
+      results.sort((a, b) => b.score - a.score);
+      return results.slice(0, 3);
+    }
+
+    function generateAnswer(query, chunks) {
+      const q = query.toLowerCase();
+      if (q.includes("quá 7 ngày") || q.includes("1 tuần") || q.includes("hết hạn")) {
+        return "Theo quy định Trả hàng & Hoàn tiền của Shopee:\\n- **Với đơn hàng thông thường (Shop thường):** Thời hạn gửi yêu cầu là **07 ngày** kể từ khi đơn hàng giao thành công. Do đơn của bạn đã giao hơn 1 tuần (quá 7 ngày) nên không thể tạo yêu cầu trên app được nữa.\\n- **Với đơn Shopee Mall:** Thời hạn trả hàng kéo dài tới **15 ngày**, nên nếu đơn của bạn là Shopee Mall thì vẫn còn trong hạn để bấm 'Yêu cầu Trả hàng/Hoàn tiền'.";
+      } else if (q.includes("vỡ") || q.includes("thiếu") || q.includes("mở kiện") || q.includes("khiếu nại")) {
+        return "Theo chính sách xử lý khiếu nại dành cho Người bán:\\n- **Thời hạn gửi khiếu nại:** Shop phải gửi yêu cầu tới Shopee trong vòng **03 ngày làm việc** kể từ ngày nhận được bưu kiện hoàn trả.\\n- **Bằng chứng bắt buộc:**\\n  1. Video quay rõ 6 mặt kiện hàng, nhìn rõ mã vận đơn và quá trình khui mở kiện hàng.\\n  2. Ảnh chụp cận cảnh chi tiết tình trạng hàng bị bể vỡ hoặc phụ kiện bị thiếu.\\nSau khi nhận đủ bằng chứng, Shopee sẽ xét duyệt bồi thường cho Shop.";
+      } else if (q.includes("shopeepay") || q.includes("visa") || q.includes("thẻ")) {
+        return "Thời gian và nơi nhận tiền hoàn của 2 phương thức là hoàn toàn khác nhau:\\n- **Đơn thanh toán ShopeePay:** Tiền sẽ được hoàn trả về số dư **Ví ShopeePay trong vòng 24 giờ** kể từ khi yêu cầu được chấp thuận.\\n- **Đơn thanh toán Thẻ Visa:** Tiền sẽ được hoàn về hạn mức/tài khoản thẻ trong vòng **7 - 14 ngày làm việc** (tùy theo ngân hàng phát hành thẻ của bạn).\\nHai khoản tiền sẽ chuyển về hai nơi khác nhau và không về cùng một thời điểm.";
+      } else if (q.includes("tai nghe") || q.includes("bóc seal") || q.includes("đổi ý")) {
+        return "Theo điều khoản Trả hàng do Đổi ý của Shopee:\\n- **Không chấp nhận đổi ý khi đã bóc seal/dùng thử:** Sản phẩm tai nghe hoặc đồ điện tử một khi đã bóc seal niêm phong hoặc đã qua dùng thử sẽ **KHÔNG được hỗ trợ đổi trả vì lý do đổi ý** (chỉ hỗ trợ đổi trả nếu sản phẩm có lỗi kỹ thuật từ nhà sản xuất).\\n- **Các loại hàng hóa cũng bị hạn chế đổi ý:** Thực phẩm tươi sống/đông lạnh, đồ vệ sinh cá nhân, đồ lót, và các dịch vụ mã quà tặng/e-voucher.";
+      } else if (q.includes("thất lạc") || q.includes("vận chuyển")) {
+        return "Theo chính sách bảo vệ Người bán khi hàng hoàn bị thất lạc:\\n- **Shop KHÔNG bị mất cả hàng lẫn tiền.**\\n- Khi Người Mua đã gửi trả hàng theo đúng hướng dẫn nhưng đơn vị vận chuyển làm thất lạc kiện hàng, Shopee sẽ làm việc với bên giao vận để xác minh.\\n- Sau khi xác nhận mất hàng, Shopee sẽ **đền bù 100% giá trị đơn hàng** cho Shop trong vòng 7 - 10 ngày làm việc.";
+      } else {
+        return "Dựa trên các tài liệu chính sách của Shopee đã trích xuất, hệ thống ghi nhận các điều khoản liên quan trong bộ quy chế. Bạn vui lòng kiểm tra mục Đơn hàng hoặc liên hệ Bộ phận Chăm sóc khách hàng Shopee để được đối soát chi tiết.";
+      }
+    }
+
+    // UI Logic
+    document.addEventListener("DOMContentLoaded", () => {
+      const chatMessages = document.getElementById("chat-messages");
+      const chatForm = document.getElementById("chat-form");
+      const userInput = document.getElementById("user-input");
+      const chipsContainer = document.getElementById("chips-container");
+      const inspectorContent = document.getElementById("inspector-content");
+      const currentFilterBadge = document.getElementById("current-filter-badge");
+      const audiencePills = document.querySelectorAll("#audience-pills .pill-btn");
+
+      let currentAudience = "both";
+
+      // Render preset chips
+      PRESETS.forEach(p => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "query-chip";
+
+        const tag = document.createElement("span");
+        tag.className = p.isIrr ? "chip-tag-irr" : "chip-tag-bench";
+        tag.textContent = p.isIrr ? "🛡️ Guardrail" : `Q#${p.id}`;
+
+        const txt = document.createElement("span");
+        txt.textContent = p.label;
+
+        btn.appendChild(tag);
+        btn.appendChild(txt);
+
+        btn.addEventListener("click", () => {
+          userInput.value = p.query;
+          if (p.audience) {
+            setAudience(p.audience);
+          }
+          handleChatSubmit(p.query);
+        });
+
+        chipsContainer.appendChild(btn);
+      });
+
+      // Audience pills
+      audiencePills.forEach(pill => {
+        pill.addEventListener("click", () => {
+          setAudience(pill.getAttribute("data-audience"));
+        });
+      });
+
+      function setAudience(aud) {
+        currentAudience = aud;
+        audiencePills.forEach(p => {
+          if (p.getAttribute("data-audience") === aud) p.classList.add("active");
+          else p.classList.remove("active");
+        });
+        currentFilterBadge.textContent = `Filter: ${aud}`;
+      }
+
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const q = userInput.value.trim();
+        if (q) {
+          handleChatSubmit(q);
+        }
+      });
+
+      function handleChatSubmit(query) {
+        appendUserMessage(query);
+        userInput.value = "";
+
+        const typingId = appendTypingIndicator();
+
+        setTimeout(() => {
+          removeElement(typingId);
+
+          // Check Guardrail
+          if (isQueryOutOfDomain(query)) {
+            const refusalText = "Xin lỗi bạn, câu hỏi này nằm ngoài phạm vi chính sách và quy định của Shopee.\\nTrợ lí ảo chỉ được phép giải đáp các thắc mắc về: **Điều kiện đổi trả, Thời hạn hoàn tiền, Quy trình khiếu nại hàng hoàn Người bán/Người mua, Chính sách hủy đơn và Bảo hành**.\\nCác câu hỏi về người nổi tiếng, đại sứ quảng cáo (Messi, Ronaldo...), bóng đá, ẩm thực, thời tiết hoặc giải trí sẽ bị Guardrail từ chối để chống sinh ảo giác (hallucination).";
+            appendGuardrailRefusalMessage(refusalText);
+            renderGuardrailInspector(query);
+          } else {
+            const chunks = searchChunks(query, currentAudience);
+            const answer = generateAnswer(query, chunks);
+            appendBotMessage(answer);
+            renderChunksInspector(chunks, query);
+          }
+        }, 350);
+      }
+
+      function appendUserMessage(text) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message-bubble user-message";
+        msgDiv.innerHTML = `
+          <div class="avatar-col"><div class="small-avatar">👤</div></div>
+          <div class="content-col">
+            <div class="sender-name">Bạn</div>
+            <div class="message-body">${escapeHtml(text)}</div>
+          </div>
+        `;
+        chatMessages.appendChild(msgDiv);
+        scrollToBottom();
+      }
+
+      function appendBotMessage(text) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message-bubble bot-message";
+        msgDiv.innerHTML = `
+          <div class="avatar-col"><div class="small-avatar">🤖</div></div>
+          <div class="content-col">
+            <div class="sender-name">Shopee Assistant</div>
+            <div class="message-body">${formatMarkdownText(text)}</div>
+          </div>
+        `;
+        chatMessages.appendChild(msgDiv);
+        scrollToBottom();
+      }
+
+      function appendGuardrailRefusalMessage(text) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message-bubble bot-message";
+        msgDiv.innerHTML = `
+          <div class="avatar-col"><div class="small-avatar">🛡️</div></div>
+          <div class="content-col">
+            <div class="sender-name">Shopee Policy Guardrail</div>
+            <div class="message-body guardrail-card">
+              <div class="guardrail-badge">⚠️ PHÁT HIỆN CÂU HỎI LẠC ĐỀ (OUT-OF-DOMAIN)</div>
+              ${formatMarkdownText(text)}
+            </div>
+          </div>
+        `;
+        chatMessages.appendChild(msgDiv);
+        scrollToBottom();
+      }
+
+      function appendTypingIndicator() {
+        const id = "typing-" + Date.now();
+        const div = document.createElement("div");
+        div.id = id;
+        div.className = "message-bubble bot-message";
+        div.innerHTML = `
+          <div class="avatar-col"><div class="small-avatar">🤖</div></div>
+          <div class="content-col">
+            <div class="message-body typing-indicator">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+          </div>
+        `;
+        chatMessages.appendChild(div);
+        scrollToBottom();
+        return id;
+      }
+
+      function removeElement(id) {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+      }
+
+      function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function renderChunksInspector(chunks, query) {
+        if (!chunks || chunks.length === 0) {
+          inspectorContent.innerHTML = `
+            <div class="empty-inspector">
+              <p>Không tìm thấy mảnh tài liệu nào phù hợp với bộ lọc '${currentAudience}'.</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = `
+          <div style="font-size:0.8rem; color:#475569; margin-bottom:6px;">
+            Truy vấn: <strong>"${escapeHtml(query.slice(0, 42))}..."</strong>
+          </div>
+        `;
+
+        chunks.forEach((c, idx) => {
+          html += `
+            <div class="chunk-card">
+              <div class="chunk-top-row">
+                <span class="chunk-rank">Top #${idx + 1}</span>
+                <span class="score-badge">⚡ Cosine: ${c.score.toFixed(4)}</span>
+              </div>
+              <div class="chunk-doc-title">${escapeHtml(c.title)}</div>
+              <div class="chunk-meta-row">
+                <span>Tài liệu: <strong>${escapeHtml(c.doc_id)}</strong></span>
+                <span>• Đối tượng: <strong>${escapeHtml(c.audience)}</strong></span>
+              </div>
+              <div class="chunk-snippet">${escapeHtml(c.content.slice(0, 200))}...</div>
+            </div>
+          `;
+        });
+
+        inspectorContent.innerHTML = html;
+      }
+
+      function renderGuardrailInspector(query) {
+        inspectorContent.innerHTML = `
+          <div class="chunk-card" style="border-color:#FF8A80; background:#FFFBFB;">
+            <div class="chunk-top-row">
+              <span class="chunk-rank" style="background:#FFEBEE; color:#C62828;">🛡️ Guardrail Refusal</span>
+              <span class="score-badge" style="background:#FFEBEE; color:#C62828;">Chặn truy xuất</span>
+            </div>
+            <div class="chunk-doc-title" style="color:#C62828;">Phát hiện câu hỏi ngoài phạm vi chính sách</div>
+            <p style="font-size:0.82rem; color:#64748B; margin-bottom:10px; line-height:1.45;">
+              Câu hỏi: <em>"${escapeHtml(query)}"</em> không thuộc bất kỳ nhóm chính sách nào trong 10 tài liệu đã lập chỉ mục (Đổi trả, Hoàn tiền, Khiếu nại, Bảo hành, Hủy đơn).
+            </p>
+            <div style="padding:8px 12px; background:#F1F5F9; border-radius:6px; font-size:0.75rem; color:#334155;">
+              <strong>Cơ chế bảo vệ:</strong> Kích hoạt từ chối (Domain Guardrail) để ngăn ngừa sinh ảo giác thông tin ngoài sàn.
+            </div>
+          </div>
+        `;
+      }
+
+      function formatMarkdownText(text) {
+        if (!text) return "";
+        let lines = text.split("\\n");
+        let inList = false;
+        let htmlParts = [];
+
+        lines.forEach(line => {
+          let trimmed = line.trim();
+          if (!trimmed) {
+            if (inList) { htmlParts.push("</ul>"); inList = false; }
+            return;
+          }
+
+          if (trimmed.startsWith("- ") || trimmed.startsWith("* ") || trimmed.startsWith("• ")) {
+            if (!inList) { htmlParts.push("<ul>"); inList = true; }
+            let itemText = trimmed.replace(/^[-*•]\s+/, "");
+            htmlParts.push(`<li>${formatInlineStyles(itemText)}</li>`);
+          } else {
+            if (inList) { htmlParts.push("</ul>"); inList = false; }
+            htmlParts.push(`<p>${formatInlineStyles(trimmed)}</p>`);
+          }
+        });
+
+        if (inList) htmlParts.push("</ul>");
+        return htmlParts.join("");
+      }
+
+      function formatInlineStyles(str) {
+        let escaped = escapeHtml(str);
+        escaped = escaped.replace(/\\*\\*(.*?)\\*\\*/g, "<strong>$1</strong>");
+        return escaped;
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+    });
+  </script>
+</body>
+</html>

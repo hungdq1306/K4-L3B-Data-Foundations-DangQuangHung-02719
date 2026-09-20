@@ -1,0 +1,154 @@
+GOLDEN_SET = [
+    {
+        "id": 1,
+        "query": "Đơn của mình báo giao thành công được hơn 1 tuần rồi nhưng hôm nay mới phát hiện sản phẩm bị lỗi. Giờ mình còn tạo yêu cầu trả hàng trên Shopee được không?",
+        "filter": {"audience": "buyer"},
+        "golden_answer": (
+            "Có, nếu đơn hàng vẫn còn trong thời hạn Shopee tiếp nhận yêu cầu Trả hàng/Hoàn tiền. "
+            "Với các đơn hàng thông thường, người mua có tối đa 15 ngày kể từ khi đơn được cập nhật "
+            "'Giao hàng thành công' để gửi yêu cầu. Vì vậy, việc đã giao hơn 1 tuần chưa đồng nghĩa "
+            "với hết hạn; nếu vẫn chưa quá 15 ngày thì bạn vẫn có thể tạo yêu cầu với lý do hàng lỗi/"
+            "không hoạt động. Riêng thực phẩm tươi sống và đông lạnh, thời hạn thông thường chỉ là "
+            "24 giờ kể từ khi đơn được cập nhật giao thành công."
+        ),
+        "must_include": [
+            "Thời hạn thông thường là 15 ngày kể từ khi đơn được cập nhật Giao hàng thành công",
+            "Hơn 1 tuần vẫn có thể yêu cầu nếu chưa quá 15 ngày",
+            "Hàng lỗi/không hoạt động là một lý do Trả hàng/Hoàn tiền được Shopee hỗ trợ",
+            "Ngoại lệ thực phẩm tươi sống/đông lạnh: 24 giờ"
+        ],
+        "must_not_claim": [
+            "Chỉ có 7 ngày để trả hàng",
+            "Bấm Đã nhận được hàng thì không thể trả hàng",
+            "Cứ phát hiện lỗi bất kỳ lúc nào cũng được trả hàng",
+            "Shopee chắc chắn sẽ chấp nhận hoàn tiền"
+        ]
+    },
+
+    {
+        "id": 2,
+        "query": "Khách trả đơn về nhưng lúc shop mở kiện thì thấy thiếu phụ kiện và sản phẩm còn bị vỡ. Shop cần chuẩn bị gì để Shopee xem xét khiếu nại?",
+        "filter": {"audience": "seller"},
+        "golden_answer": (
+            "Shop nên phản hồi/khiếu nại ngay trên hệ thống và chuẩn bị bằng chứng rõ ràng về tình trạng "
+            "hàng trước khi gửi và khi nhận hàng hoàn. Theo chính sách Shopee, Người bán cần phản hồi "
+            "trong vòng 2 ngày lịch kể từ khi nhận thông báo nếu sản phẩm hoàn trả bị hư hỏng, mất mát "
+            "hoặc không đáp ứng điều kiện hoàn trả. Bằng chứng nên thể hiện được mã đơn/mã vận đơn, "
+            "tình trạng và số lượng hàng/phụ kiện ban đầu, cách đóng gói, cũng như tình trạng kiện hàng "
+            "khi hoàn về. Khi nhận hàng hoàn, video mở kiện hoặc video/biên bản đồng kiểm với đơn vị "
+            "vận chuyển là bằng chứng quan trọng; video nên cho thấy ngoại quan kiện hàng, tình trạng "
+            "sản phẩm bên trong và chi tiết phần phụ kiện bị thiếu hoặc phần sản phẩm bị vỡ. "
+            "Ngoài ra shop nên giữ vận đơn/hóa đơn vận chuyển và các hóa đơn, chứng từ hợp lệ của sản phẩm "
+            "để phục vụ việc xác minh hoặc xem xét bồi thường khi được yêu cầu."
+        ),
+        "must_include": [
+            "Người bán cần phản hồi trong vòng 2 ngày lịch khi hàng hoàn bị hư hỏng/mất mát hoặc không đúng điều kiện",
+            "Video/hình ảnh chứng minh tình trạng hàng",
+            "Mã đơn hàng hoặc mã vận đơn phải nhận diện được",
+            "Nên có video mở kiện hàng hoàn hoặc video/biên bản đồng kiểm với đơn vị vận chuyển",
+            "Bằng chứng phải thể hiện tình trạng sản phẩm, thiếu phụ kiện và phần bị bể/vỡ",
+            "Giữ vận đơn/hóa đơn vận chuyển và chứng từ liên quan"
+        ],
+        "must_not_claim": [
+            "Chỉ cần chụp một ảnh sản phẩm bị vỡ là Shopee chắc chắn bồi thường",
+            "Shopee mặc định coi lỗi thuộc về người mua",
+            "Thiếu phụ kiện luôn được bồi thường 100% giá trị đơn",
+            "Shop không cần phản hồi trên hệ thống"
+        ]
+    },
+
+    {
+        "id": 3,
+        "query": "Mình thanh toán một đơn bằng ShopeePay, đơn khác bằng thẻ Visa. Nếu cả hai được chấp nhận hoàn tiền thì tiền sẽ về đâu và có về cùng lúc không?",
+        "filter": {"audience": "buyer"},
+        "golden_answer": (
+            "Hai khoản tiền không nhất thiết về cùng lúc. Với đơn thanh toán bằng Ví ShopeePay, "
+            "tiền được hoàn về Ví ShopeePay, thông thường trong vòng 24 giờ sau khi Shopee chấp nhận "
+            "hoàn tiền, với điều kiện ví vẫn hoạt động bình thường. Với đơn thanh toán bằng thẻ Visa "
+            "tín dụng/ghi nợ, tiền được hoàn về đúng thẻ tín dụng/ghi nợ đã dùng để thanh toán và "
+            "thời gian nhận tiền là khoảng 7-14 ngày làm việc tùy ngân hàng. Vì hai phương thức có "
+            "thời gian xử lý khác nhau nên hai khoản hoàn có thể về ở những thời điểm khác nhau."
+        ),
+        "must_include": [
+            "ShopeePay hoàn về Ví ShopeePay",
+            "ShopeePay: khoảng 24 giờ sau khi Shopee chấp nhận hoàn tiền",
+            "Visa tín dụng/ghi nợ hoàn về đúng thẻ đã dùng để thanh toán",
+            "Thẻ tín dụng/ghi nợ: 7-14 ngày làm việc tùy ngân hàng",
+            "Hai khoản không nhất thiết về cùng lúc"
+        ],
+        "must_not_claim": [
+            "Cả hai đều hoàn về ShopeePay",
+            "Thẻ Visa được hoàn trong 24 giờ",
+            "Người mua được tự chọn tài khoản nhận tiền của đơn thanh toán bằng thẻ",
+            "Hai khoản chắc chắn về cùng ngày"
+        ]
+    },
+
+    {
+        "id": 4,
+        "query": "Mình mua tai nghe, đã bóc seal và dùng thử nhưng thấy không hợp nên muốn trả lại. Nếu chỉ là mình đổi ý thì Shopee có nhận trả không? Những loại hàng nào cũng bị hạn chế kiểu này?",
+        "filter": {"audience": "buyer"},
+        "golden_answer": (
+            "Nếu lý do duy nhất là đổi ý thì trường hợp tai nghe đã bóc seal và dùng thử không đáp ứng "
+            "điều kiện trả hàng do 'Đổi ý'. Shopee yêu cầu sản phẩm trả vì đổi ý phải còn nguyên trạng "
+            "ban đầu, chưa bóc tem/khui hộp, chưa sử dụng, lắp đặt hoặc test thử và còn đầy đủ tem, "
+            "nhãn mác, phụ kiện, quà tặng đi kèm. Với phụ kiện điện thoại và phụ kiện thiết bị điện tử, "
+            "bao bì và niêm phong nguyên bản phải còn nguyên, chưa mở và sản phẩm chưa sử dụng. "
+            "Ngoài điều kiện về tình trạng sản phẩm, lý do 'Đổi ý' hiện chỉ áp dụng cho nhóm người mua "
+            "đủ điều kiện như hạng Vàng, Kim Cương hoặc người dùng ShopeeVIP và không áp dụng với "
+            "các sản phẩm thuộc danh sách hạn chế. Các nhóm hạn chế có thể gồm thiết bị điện tử/công nghệ "
+            "có niêm phong, kích hoạt hoặc bảo hành; một số sản phẩm sức khỏe, vệ sinh và đồ cá nhân; "
+            "thực phẩm và hàng mau hỏng; phương tiện giao thông, dầu nhớt, vàng; sản phẩm số/dịch vụ "
+            "như SIM, thẻ điện thoại, voucher hoặc thẻ quà tặng, cùng một số sản phẩm khác theo quy định "
+            "Shopee tại từng thời điểm."
+        ),
+        "must_include": [
+            "Đã bóc seal và dùng thử thì không đủ điều kiện trả chỉ vì đổi ý",
+            "Trả hàng do đổi ý yêu cầu sản phẩm còn nguyên trạng, chưa mở/chưa sử dụng/test thử",
+            "Phải còn đầy đủ tem, bao bì và phụ kiện",
+            "Lý do đổi ý không áp dụng cho mọi người mua và mọi sản phẩm",
+            "Có các nhóm sản phẩm hạn chế trả hàng"
+        ],
+        "must_not_claim": [
+            "Shopee cho phép dùng thử tai nghe rồi trả trong 15 ngày chỉ vì không thích",
+            "Mọi người mua đều được trả hàng do đổi ý",
+            "Mọi sản phẩm điện tử đều tuyệt đối không thể trả hàng với bất kỳ lý do nào",
+            "Bóc seal vẫn được trả nếu sản phẩm chưa hỏng"
+        ]
+    },
+
+    {
+        "id": 5,
+        "query": "Shop đã gửi lại hàng theo đúng quy trình sau khi khách trả đơn, nhưng kiện hàng bị thất lạc trong lúc bên vận chuyển xử lý. Shop có bị mất cả hàng lẫn tiền không, và Shopee giải quyết trường hợp này như thế nào?",
+        "filter": {"audience": "seller"},
+        "golden_answer": (
+            "Không thể kết luận rằng shop mặc định sẽ mất cả hàng lẫn tiền. Nếu sản phẩm hoàn trả bị "
+            "mất trong quá trình hoàn trả, chính sách Shopee cho phép Người bán phản hồi khi chưa nhận "
+            "được Sản phẩm Hoàn Trả hoặc khi sản phẩm bị hư hỏng/mất mát; Người bán cần phản hồi trong "
+            "vòng 2 ngày lịch kể từ khi nhận thông báo của Shopee, trừ khi Shopee quy định thời hạn khác "
+            "cho trường hợp cụ thể. Shopee sẽ xem xét bằng chứng và tình trạng vận chuyển để xử lý. "
+            "Đối với trường hợp được xác định là mất hàng/bưu gửi thất lạc hoàn toàn trong dịch vụ "
+            "vận chuyển được Shopee hỗ trợ, chính sách vận chuyển quy định mức bồi thường dựa trên số tiền "
+            "đơn vị vận chuyển đồng ý bồi thường; nếu đơn vị vận chuyển không bồi thường hoặc bồi thường "
+            "thấp hơn mức quy định, mức bồi thường có thể là 70% giá bán sản phẩm theo điều kiện của "
+            "chính sách. Người bán cần cung cấp hóa đơn/chứng từ hợp pháp của sản phẩm để được xem xét "
+            "bồi thường. Mức bồi thường thực tế phụ thuộc kết quả xác minh của Shopee và trường hợp cụ thể, "
+            "không nên hiểu là shop tự động được hoàn 100% giá trị hàng."
+        ),
+        "must_include": [
+            "Không mặc định shop mất cả hàng lẫn tiền",
+            "Người bán có quyền phản hồi khi chưa nhận được hàng hoàn hoặc hàng hoàn bị mất/hư hỏng",
+            "Thời hạn phản hồi theo chính sách Trả hàng/Hoàn tiền là 2 ngày lịch kể từ thông báo, trừ khi Shopee quy định khác",
+            "Shopee sẽ xác minh trước khi quyết định",
+            "Trường hợp thất lạc hoàn toàn có cơ chế bồi thường theo Chính sách vận chuyển",
+            "Mức bồi thường có thể dựa vào khoản đơn vị vận chuyển bồi thường hoặc mức 70% giá bán theo điều kiện chính sách",
+            "Cần hóa đơn/chứng từ hợp lệ để được xem xét bồi thường"
+        ],
+        "must_not_claim": [
+            "Shopee luôn hoàn 100% giá trị hàng bị thất lạc",
+            "Shop chắc chắn mất cả tiền lẫn hàng",
+            "Cứ vận chuyển làm mất là Shopee tự động trả 70% mà không cần xác minh/chứng từ",
+            "Khoản 70% áp dụng vô điều kiện cho mọi trường hợp"
+        ]
+    }
+]

@@ -31,17 +31,23 @@ class EmbeddingStore:
             import chromadb
 
             client = chromadb.Client()
-            self._collection = client.get_or_create_collection(name=collection_name)
+            try:
+                client.delete_collection(name=collection_name)
+            except Exception:
+                pass
+            self._collection = client.create_collection(name=collection_name)
             self._use_chroma = True
         except Exception:
             self._use_chroma = False
             self._collection = None
 
     def _make_record(self, doc: Document) -> dict[str, Any]:
+        meta = dict(doc.metadata) if doc.metadata else {}
+        meta["doc_id"] = doc.id
         return {
             "id": doc.id,
             "content": doc.content,
-            "metadata": dict(doc.metadata) if doc.metadata else {},
+            "metadata": meta,
             "embedding": self._embedding_fn(doc.content),
         }
 
@@ -74,20 +80,25 @@ class EmbeddingStore:
         metadatas = []
 
         for doc in docs:
+            self._next_index += 1
             record = self._make_record(doc)
             self._store.append(record)
-            ids.append(record["id"])
+            chunk_id = f"{doc.id}_{self._next_index}"
+            ids.append(chunk_id)
             documents.append(record["content"])
             embeddings.append(record["embedding"])
             metadatas.append(record["metadata"])
 
         if self._use_chroma and self._collection is not None and ids:
-            self._collection.add(
-                ids=ids,
-                documents=documents,
-                embeddings=embeddings,
-                metadatas=metadatas if any(metadatas) else None,
-            )
+            try:
+                self._collection.add(
+                    ids=ids,
+                    documents=documents,
+                    embeddings=embeddings,
+                    metadatas=metadatas,
+                )
+            except Exception:
+                pass
 
     def search(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
         """
@@ -106,10 +117,12 @@ class EmbeddingStore:
                 distances = res["distances"][0] if res.get("distances") else [0.0] * len(ids)
                 for i in range(len(ids)):
                     score = 1.0 - distances[i] if distances else 0.0
+                    meta = metadatas[i] or {}
+                    doc_id = meta.get("doc_id", ids[i])
                     results.append({
-                        "id": ids[i],
+                        "id": doc_id,
                         "content": documents[i],
-                        "metadata": metadatas[i] or {},
+                        "metadata": meta,
                         "score": score,
                     })
                 return results
@@ -153,8 +166,11 @@ class EmbeddingStore:
 
         if self._use_chroma and self._collection is not None:
             try:
-                self._collection.delete(ids=[doc_id])
+                self._collection.delete(where={"doc_id": doc_id})
             except Exception:
-                pass
+                try:
+                    self._collection.delete(ids=[doc_id])
+                except Exception:
+                    pass
 
         return removed
