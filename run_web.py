@@ -24,7 +24,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from bench import BENCHMARK_QUERIES, load_and_chunk_corpus
-from demo import DOMAIN_KEYWORDS, OUT_OF_DOMAIN_PATTERNS, check_domain_relevance, smart_llm_response
+from demo import OUT_OF_DOMAIN_PATTERNS, POLICY_KEYWORDS, check_domain_relevance, smart_llm_response
 from src.chunking import HeadingChunker
 from src.embeddings import _mock_embed
 from src.store import EmbeddingStore

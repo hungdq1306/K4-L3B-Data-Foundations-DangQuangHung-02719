@@ -1,7 +1,12 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
 **Nhóm:** Nhóm 1 - L3B
-**Thành viên:** Đặng Quang Hùng (Data & Strategy Lead) và các thành viên nhóm 1
+**Thành viên & Phân vai (4 người):**
+1. **Nguyễn Tuấn Anh** — Vai R1: Data Lead (Chốt chủ đề, chia URL, kiểm tra metadata, giữ `sources.csv`)
+2. **Trần Phương Linh** — Vai R2: Benchmark Lead (Viết 5 query + gold answer, kiểm trích xuất tài liệu thật)
+3. **Đặng Quang Hưng (02719)** — Vai R3: Strategy Lead (Bắt buộc: chunk theo heading, chạy baseline nhóm)
+4. **Lê Quốc Huy** — Vai R4: Report & Demo Lead (Gom kết quả cả nhóm, viết báo cáo và dẫn thuyết trình demo)
+
 **Ngày:** 20/09/2026
 
 > **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
@@ -11,6 +16,23 @@
 ---
 
 ## 1. Lựa chọn tài liệu (Document Set Quality) — Nhóm (10 điểm)
+
+### Chia vai (5 phút)
+
+Nhóm 4 người, mỗi người một vai. Vai là trách nhiệm điều phối cộng thêm — ai cũng vẫn tự code Giai đoạn 2 và tự chạy benchmark riêng.
+
+| Vai | Thành viên | Việc | Hạn |
+|-----|------------|------|-----|
+| **R1 · Data** | Nguyễn Tuấn Anh | Chốt chủ đề, chia mỗi người 2–3 URL, kiểm metadata từng file, giữ `sources.csv` | CP2 |
+| **R2 · Benchmark** | Trần Phương Linh | Viết 5 query + gold answer, tự kiểm mỗi gold answer trích được từ tài liệu thật | CP5 |
+| **R3 · Strategy** | Đặng Quang Hưng (02719) | Bảo đảm không ai trùng chiến lược, nhận vai chunk theo heading (`HeadingChunker`), chạy baseline cho nhóm | CP5 |
+| **R4 · Report & Demo Lead** | Lê Quốc Huy | Gom kết quả cả nhóm và dẫn phần thuyết trình (demo) | Demo |
+
+> **Quy định chiến lược:** Chiến lược chunking không được trùng nhau.
+> - Thành viên 1 (R1): `FixedSizeChunker` (có overlap)
+> - Thành viên 2 (R2): `RecursiveChunker`
+> - Thành viên 3 (R3): Chunker theo heading (`HeadingChunker`) — **vai thứ ba là bắt buộc** (Đặng Quang Hưng đảm nhiệm).
+> - Thành viên 4 (R4): `SentenceChunker` (ngắt theo câu trọn vẹn)
 
 ### Chủ đề (Domain) & Lý Do Chọn
 
@@ -71,17 +93,17 @@ Chạy `ChunkingStrategyComparator().compare()` trên các tài liệu đã lo�
 | `shopee-mall-return-policy.md` | SentenceChunker (`by_sentences`) | 10 | 626.9 ký tự | Gom nhóm câu tốt nhưng chunk hơi dài. |
 | `shopee-mall-return-policy.md` | RecursiveChunker (`recursive`) | 112 | 54.4 ký tự | Chunk quá vụn do ngắt đệ quy theo các dòng trống. |
 
-### Chiến lược của từng thành viên
+### Chiến lược của từng thành viên (4 Chiến Lược Không Trùng Nhau)
 
-**Thành viên 1 — R1 (Data Lead)**
+**Thành viên 1 — R1: Nguyễn Tuấn Anh (Data Lead)**
 - **Loại chiến lược:** `FixedSizeChunker` (chunk_size=500, overlap=50)
-- **Mô tả & lý do chọn cho chủ đề này:** Đơn giản, đảm bảo độ dài các chunk đồng đều. Thêm overlap 50 ký tự để hạn chế việc ngắt quãng ý nghĩa giữa 2 chunk kề nhau.
+- **Mô tả & lý do chọn:** Đơn giản, đảm bảo độ dài các chunk đồng đều. Thêm overlap 50 ký tự để hạn chế việc ngắt quãng ý nghĩa giữa 2 chunk kề nhau.
 
-**Thành viên 2 — R2 (Benchmark Lead)**
+**Thành viên 2 — R2: Trần Phương Linh (Benchmark Lead)**
 - **Loại chiến lược:** `RecursiveChunker` (chunk_size=500, separators=["\n\n", "\n", ". ", " "])
-- **Mô tả & lý do chọn:** Thử nghiệm ngắt theo cấu trúc đoạn văn trước (`\n\n`), nếu đoạn văn vượt quá 500 ký tự mới tiếp tục hạ bậc xuống câu và từ. Phù hợp với văn bản điều khoản có cấu trúc đoạn.
+- **Mô tả & lý do chọn:** Thử nghiệm ngắt theo cấu trúc đoạn văn trước (`\n\n`), nếu đoạn văn vượt quá 500 ký tự mới tiếp tục hạ bậc xuống câu và từ. Phù hợp với văn bản điều khoản có phân đoạn rõ rệt.
 
-**Thành viên 3 — R3 (Strategy Lead - Bắt buộc)**
+**Thành viên 3 — R3: Đặng Quang Hưng (02719) (Strategy Lead - Bắt buộc)**
 - **Loại chiến lược:** `HeadingChunker` (Chiến lược ngắt theo Tiêu đề Markdown `#`, `##`, `###`)
 - **Mô tả & lý do chọn:** Phù hợp tuyệt đối với văn bản pháp lý / điều khoản của Shopee được tổ chức theo từng Điều/Mục. Mỗi Section tiêu đề được ngắt thành 1 chunk trọn vẹn. Khi một Section quá dài (>500 ký tự), đệ quy ngắt nhỏ và **gắn lại Tiêu đề gốc vào đầu từng mảnh con** để bảo toàn ngữ cảnh.
 - **Code snippet (custom `HeadingChunker`):**
@@ -108,13 +130,18 @@ class HeadingChunker:
         return chunks
 ```
 
+**Thành viên 4 — R4: Lê Quốc Huy (Report & Demo Lead)**
+- **Loại chiến lược:** `SentenceChunker` (max_sentences_per_chunk=3)
+- **Mô tả & lý do chọn:** Nhóm các câu hoàn chỉnh dựa trên dấu kết thúc câu (`.`, `!`, `?`). Bảo đảm ngữ pháp câu văn trọn vẹn và không bị đứt gãy từ ngữ khi đưa vào Prompt của LLM.
+
 ### So Sánh Giữa Các Thành Viên
 
-| Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
-|-----------|----------|----------------------|-----------|----------|
-| Thành viên 1 | `FixedSizeChunker` | 7.0 / 10 | Tốc độ xử lý nhanh, chunk đồng đều. | Dễ bị cắt ngang câu điều khoản quan trọng. |
-| Thành viên 2 | `RecursiveChunker` | 8.5 / 10 | Giữ trọn cấu trúc đoạn văn bản. | Đôi khi tạo ra các chunk quá ngắn khi văn bản có nhiều dòng trống. |
-| Thành viên 3 | `HeadingChunker` (Heading) | 9.5 / 10 | **Tối ưu nhất**: Bảo toàn 100% ngữ cảnh tiêu đề cho từng mảnh con. | Cần cài đặt custom logic phức tạp hơn. |
+| Thành viên | Vai trò | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
+|-----------|---------|----------------------|----------------------|-----------|----------|
+| Thành viên 1 | R1 · Data | `FixedSizeChunker` | 7.0 / 10 | Tốc độ xử lý nhanh, kích thước chunk đồng đều. | Dễ bị cắt ngang câu điều khoản quan trọng. |
+| Thành viên 2 | R2 · Benchmark | `RecursiveChunker` | 8.5 / 10 | Giữ trọn cấu trúc đoạn văn bản `\n\n`. | Đôi khi tạo ra các chunk quá ngắn khi văn bản có nhiều dòng trống. |
+| Thành viên 3 | R3 · Strategy | `HeadingChunker` (Heading) | 9.5 / 10 | **Tối ưu nhất**: Bảo toàn 100% ngữ cảnh tiêu đề cho từng mảnh con. | Cần cài đặt custom logic phân tách tiêu đề phức tạp hơn. |
+| Thành viên 4 | R4 · Report & Demo | `SentenceChunker` | 8.0 / 10 | Đảm bảo ngữ pháp từng câu văn hoàn chỉnh, dễ đọc. | Kích thước chunk không đồng đều phụ thuộc vào câu dài hay ngắn. |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
 > **`HeadingChunker` (Chia nhỏ theo Tiêu đề/Heading)** là chiến lược tối ưu nhất cho văn bản chính sách thương mại điện tử. Lý do là các quy định Shopee được trình bày theo từng Điều/Mục rõ ràng; việc giữ tiêu đề mục ở đầu mỗi chunk giúp véc-tơ embedding định vị chính xác ngữ cảnh quy định ngay cả khi văn bản bị chia nhỏ.
@@ -122,10 +149,6 @@ class HeadingChunker:
 ---
 
 ## 3. Câu hỏi đánh giá & Chất lượng truy xuất (Retrieval Quality) — Nhóm (10 điểm)
-
-### Câu hỏi đánh giá & Câu trả lời chuẩn (nhóm thống nhất)
-
-> **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
 
 ### Câu hỏi đánh giá & Câu trả lời chuẩn (nhóm thống nhất)
 
