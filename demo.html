@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shopee Policy AI Assistant — Trợ Lí Chính Sách Shopee</title>
+  <title>Shopee Policy AI Assistant — Nhóm Enigma - L3B</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
       --primary-light: #FFF0ED;
       --primary-border: #FFCCBF;
       --accent-coral: #FF5722;
-      --accent-gold: #FFB300;
+      --accent-gold: #D97706;
       --accent-gold-bg: #FEF3C7;
       --accent-green: #16A34A;
       --accent-green-bg: #DCFCE7;
@@ -22,18 +22,16 @@
       --accent-red: #DC2626;
       --accent-red-bg: #FEE2E2;
       --accent-red-border: #FCA5A5;
-      --text-dark: #1E293B;
+      --text-dark: #0F172A;
       --text-muted: #64748B;
       --text-light: #FFFFFF;
-      --border-glass: rgba(255, 255, 255, 0.35);
       --glass-card: rgba(255, 255, 255, 0.96);
-      --radius-xl: 20px;
-      --radius-lg: 14px;
-      --radius-md: 10px;
+      --radius-xl: 18px;
+      --radius-lg: 12px;
+      --radius-md: 8px;
       --radius-sm: 6px;
       --shadow-float: 0 16px 36px rgba(180, 40, 10, 0.28);
-      --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.08);
-      --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,7 +45,6 @@
       position: relative;
     }
 
-    /* Ambient Glowing Spheres (Signature Warm Shopee Glow) */
     .app-background {
       position: fixed;
       inset: 0;
@@ -55,60 +52,51 @@
       pointer-events: none;
       z-index: 0;
     }
-
     .glow-orb {
       position: absolute;
       border-radius: 50%;
       filter: blur(80px);
       opacity: 0.35;
-      animation: floatOrb 12s ease-in-out infinite alternate;
+      animation: floatOrb 14s ease-in-out infinite alternate;
     }
-
     .orb-1 { width: 500px; height: 500px; background: #FFD54F; top: -100px; left: -100px; }
     .orb-2 { width: 550px; height: 550px; background: #FF3D00; bottom: -150px; right: -100px; animation-delay: -4s; }
-    .orb-3 { width: 350px; height: 350px; background: #FFF9C4; top: 40%; left: 50%; opacity: 0.25; animation-delay: -7s; }
 
     @keyframes floatOrb {
       0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(40px, 30px) scale(1.08); }
+      100% { transform: translate(35px, 25px) scale(1.08); }
     }
 
     .app-shell {
       position: relative;
       z-index: 1;
-      max-width: 1520px;
+      max-width: 1480px;
       margin: 0 auto;
-      padding: 16px 24px 32px;
+      padding: 16px 20px 28px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
-    /* Top Frosted Header */
-    .top-header {
-      background: rgba(255, 255, 255, 0.18);
+    /* Streamlined Sleek Top Header */
+    .compact-header {
+      background: rgba(255, 255, 255, 0.20);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border-glass);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: var(--radius-xl);
-      padding: 18px 26px;
+      padding: 14px 22px;
       color: var(--text-light);
       box-shadow: var(--shadow-float);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .header-main-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .brand-group {
+    .brand-left {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -120,27 +108,25 @@
       gap: 8px;
       background: #FFFFFF;
       color: var(--primary-shopee);
-      padding: 8px 18px;
-      border-radius: 12px;
+      padding: 7px 16px;
+      border-radius: 10px;
       font-weight: 800;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       letter-spacing: -0.5px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
     .shopee-badge svg { width: 22px; height: 22px; fill: var(--primary-shopee); }
 
-    .brand-info h1 {
-      font-size: 1.25rem;
+    .brand-titles h1 {
+      font-size: 1.15rem;
       font-weight: 800;
       color: #FFFFFF;
-      letter-spacing: -0.3px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      gap: 8px;
+      letter-spacing: -0.2px;
     }
-
-    .rag-chip {
+    .feature-tag {
       font-size: 0.72rem;
       font-weight: 800;
       background: rgba(255, 255, 255, 0.25);
@@ -149,294 +135,191 @@
       padding: 2px 10px;
       border-radius: 20px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
-
-    .brand-info p {
-      font-size: 0.84rem;
+    .brand-titles p {
+      font-size: 0.78rem;
       color: #FFE082;
-      margin-top: 2px;
       font-weight: 600;
+      margin-top: 1px;
     }
 
-    .team-badge {
+    .team-badge-pill {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.35);
       padding: 6px 14px;
       border-radius: 10px;
       font-size: 0.78rem;
       color: #FFFFFF;
-      font-weight: 600;
+      font-weight: 700;
     }
-    .dot-live {
+    .dot-pulse {
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: #4ADE80;
-      box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.3);
-    }
-
-    /* Audience Switcher Toolbar */
-    .audience-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: var(--radius-lg);
-      padding: 10px 16px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-    }
-
-    .audience-selector-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .selector-label {
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .audience-tabs {
-      display: inline-flex;
-      background: #F1F5F9;
-      border: 1px solid #E2E8F0;
-      border-radius: 10px;
-      padding: 3px;
-      gap: 2px;
-    }
-    .aud-tab {
-      background: transparent;
-      border: none;
-      outline: none;
-      font-family: inherit;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      padding: 6px 14px;
-      border-radius: 7px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .aud-tab:hover { color: var(--primary-shopee); }
-    .aud-tab.active {
-      background: var(--primary-shopee);
-      color: white;
-      box-shadow: 0 2px 6px rgba(238, 77, 45, 0.3);
-    }
-
-    .current-policy-indicator {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .indicator-pill {
-      background: var(--primary-light);
-      border: 1px solid var(--primary-border);
-      padding: 4px 12px;
-      border-radius: 6px;
-      color: var(--primary-shopee);
-      font-weight: 800;
-    }
-
-    /* RAG Pipeline Status Bar */
-    .pipeline-status-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
-    .pipeline-step {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--text-dark);
-      white-space: nowrap;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    }
-    .pipeline-step.success {
-      background: #FFFFFF;
-      color: var(--primary-shopee);
-      border-left: 3px solid var(--primary-shopee);
-    }
-    .pipeline-arrow {
-      font-size: 0.7rem;
-      color: #FFE082;
-      font-weight: 800;
+      box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.35);
     }
 
     /* Main Workspace Grid */
     .main-grid {
       display: grid;
-      grid-template-columns: 1fr 440px;
-      gap: 16px;
+      grid-template-columns: 1fr 420px;
+      gap: 14px;
       flex: 1;
       align-items: stretch;
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1024px) {
       .main-grid { grid-template-columns: 1fr; }
     }
 
-    /* Chat Section */
+    /* Chat Section Card */
     .chat-card {
       background: var(--glass-card);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-float);
-      border: 1px solid var(--border-glass);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       display: flex;
       flex-direction: column;
-      height: 720px;
+      height: 730px;
       overflow: hidden;
     }
 
-    .chat-header {
-      padding: 14px 20px;
+    /* Integrated Unified Control Bar */
+    .chat-control-bar {
+      padding: 10px 16px;
       background: #FFFFFF;
       border-bottom: 1px solid #F1F5F9;
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    .chat-title-group {
-      display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
     }
-    .chat-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #EE4D2D, #FF7043);
-      color: white;
+
+    .aud-switch-group {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      box-shadow: 0 3px 8px rgba(238, 77, 45, 0.3);
+      gap: 8px;
     }
-    .chat-title-group h2 {
-      font-size: 0.95rem;
+    .aud-switch-label {
+      font-size: 0.78rem;
       font-weight: 800;
       color: var(--text-dark);
     }
-    .chat-title-group span {
-      font-size: 0.72rem;
-      color: var(--accent-green);
+    .aud-tabs-compact {
+      display: inline-flex;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .aud-tab-btn {
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 0.74rem;
       font-weight: 700;
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .aud-tab-btn:hover { color: var(--primary-shopee); }
+    .aud-tab-btn.active {
+      background: var(--primary-shopee);
+      color: white;
+      box-shadow: 0 2px 5px rgba(238, 77, 45, 0.3);
     }
 
-    .action-btn-sm {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 6px;
-      padding: 5px 12px;
+    .guardrail-status-pill {
       font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      cursor: pointer;
+      font-weight: 800;
+      background: var(--accent-green-bg);
+      color: var(--accent-green);
+      border: 1px solid var(--accent-green-border);
+      padding: 4px 10px;
+      border-radius: 6px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      transition: all 0.15s;
-    }
-    .action-btn-sm:hover {
-      background: var(--primary-light);
-      border-color: var(--primary-border);
-      color: var(--primary-shopee);
     }
 
-    /* Preset Questions Quickbar */
+    /* Presets Quickbar */
     .presets-bar {
-      padding: 10px 16px;
+      padding: 8px 14px;
       background: #FFF9F7;
-      border-bottom: 1px solid #FFECE8;
+      border-bottom: 1px solid #FFE4DD;
       display: flex;
-      gap: 8px;
+      gap: 6px;
       overflow-x: auto;
       scrollbar-width: thin;
     }
     .presets-bar::-webkit-scrollbar { height: 4px; }
     .presets-bar::-webkit-scrollbar-thumb { background: #FFCCBF; border-radius: 4px; }
 
-    .preset-pill {
+    .preset-chip {
       flex-shrink: 0;
       background: #FFFFFF;
       border: 1px solid #FFD5CC;
       border-radius: 20px;
-      padding: 5px 14px;
-      font-size: 0.74rem;
+      padding: 5px 12px;
+      font-size: 0.73rem;
       font-weight: 700;
       color: var(--primary-shopee);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      gap: 4px;
+      transition: all 0.15s;
     }
-    .preset-pill:hover {
+    .preset-chip:hover {
       background: var(--primary-shopee);
-      color: #FFFFFF;
+      color: white;
       transform: translateY(-1px);
-      box-shadow: 0 3px 8px rgba(238, 77, 45, 0.25);
     }
-    .preset-pill.guardrail-test {
+    .preset-chip.guardrail {
       border-color: #FCA5A5;
       background: #FFF5F5;
       color: var(--accent-red);
     }
-    .preset-pill.guardrail-test:hover {
+    .preset-chip.guardrail:hover {
       background: var(--accent-red);
-      color: #FFFFFF;
+      color: white;
     }
 
-    /* Messages Stream */
+    /* Chat Messages Stream */
     .chat-messages {
       flex: 1;
-      padding: 20px;
+      padding: 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
       background: #FFFBF9;
     }
 
     .msg-row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       max-width: 100%;
     }
     .msg-row.user { justify-content: flex-end; }
 
     .msg-avatar {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 800;
       flex-shrink: 0;
     }
@@ -453,28 +336,28 @@
     .user-bubble {
       background: linear-gradient(135deg, #EE4D2D 0%, #FF5722 100%);
       color: white;
-      padding: 12px 18px;
-      border-radius: 18px 18px 4px 18px;
-      font-size: 0.88rem;
+      padding: 10px 16px;
+      border-radius: 16px 16px 4px 16px;
+      font-size: 0.86rem;
       line-height: 1.5;
       max-width: 80%;
-      box-shadow: 0 4px 12px rgba(238, 77, 45, 0.25);
+      box-shadow: 0 4px 12px rgba(238, 77, 45, 0.22);
       font-weight: 500;
     }
 
-    /* Enterprise Structured Bot Answer Card */
+    /* Structured Bot Answer Card */
     .bot-card {
       background: #FFFFFF;
       border: 1px solid #F1F5F9;
-      border-radius: 18px;
+      border-radius: var(--radius-lg);
       box-shadow: var(--shadow-card);
       overflow: hidden;
       width: 100%;
-      max-width: 92%;
+      max-width: 94%;
     }
 
     .bot-card-header {
-      padding: 12px 18px;
+      padding: 10px 16px;
       background: #F8FAFC;
       border-bottom: 1px solid #E2E8F0;
       display: flex;
@@ -488,9 +371,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 800;
-      padding: 4px 12px;
+      padding: 3px 10px;
       border-radius: 20px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
@@ -504,84 +387,80 @@
       font-size: 0.72rem;
       color: var(--text-muted);
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .bot-card-body {
-      padding: 16px 18px;
+      padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .direct-conclusion {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       color: var(--text-dark);
       line-height: 1.5;
     }
 
-    /* Structured blocks */
     .answer-block {
       background: #F8FAFC;
       border: 1px solid #E2E8F0;
       border-radius: var(--radius-md);
-      padding: 12px 14px;
-      font-size: 0.82rem;
-      line-height: 1.55;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      line-height: 1.5;
     }
-    .block-heading {
-      font-size: 0.76rem;
+    .block-title {
+      font-size: 0.74rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
-    .block-heading.conditions { color: #0369A1; }
-    .block-heading.exceptions { color: #B45309; }
-    .block-heading.actions { color: #15803D; }
-    .block-heading.timeline { color: #6D28D9; }
+    .block-title.conditions { color: #0369A1; }
+    .block-title.exceptions { color: #B45309; }
+    .block-title.actions { color: #15803D; }
+    .block-title.timeline { color: var(--primary-shopee); }
 
     .bullet-list, .number-list {
       padding-left: 18px;
-      margin-top: 4px;
+      margin-top: 3px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
       color: var(--text-dark);
     }
 
     /* Citation Card */
     .citation-section {
       border-top: 1px dashed #E2E8F0;
-      padding-top: 12px;
-      margin-top: 4px;
+      padding-top: 10px;
+      margin-top: 2px;
     }
     .citation-heading {
-      font-size: 0.73rem;
+      font-size: 0.72rem;
       font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .citation-card {
+    .citation-box {
       background: #FFFFFF;
       border: 1px solid #E2E8F0;
       border-left: 4px solid var(--primary-shopee);
       border-radius: var(--radius-sm);
-      padding: 10px 14px;
+      padding: 8px 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
     .cit-top {
       display: flex;
@@ -590,7 +469,7 @@
       gap: 8px;
     }
     .cit-title {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-dark);
     }
@@ -598,8 +477,8 @@
       background: var(--primary-light);
       border: 1px solid var(--primary-border);
       border-radius: 4px;
-      padding: 3px 10px;
-      font-size: 0.7rem;
+      padding: 2px 8px;
+      font-size: 0.68rem;
       font-weight: 700;
       color: var(--primary-shopee);
       cursor: pointer;
@@ -610,53 +489,50 @@
       color: white;
     }
     .cit-snippet {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       color: #475569;
-      line-height: 1.45;
+      line-height: 1.4;
       background: #F8FAFC;
-      padding: 6px 10px;
+      padding: 5px 8px;
       border-radius: 4px;
       font-style: italic;
     }
     .cit-url {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: #2563EB;
       text-decoration: none;
+      font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-weight: 600;
     }
     .cit-url:hover { text-decoration: underline; }
 
-    /* Suggested Questions Row */
+    /* Suggested Chips */
     .suggested-section {
-      padding: 10px 18px;
+      padding: 8px 16px;
       background: #FFFDFB;
       border-top: 1px solid #FFE4DD;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
     .suggested-label {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 800;
       color: var(--primary-shopee);
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
     .suggested-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
     }
     .suggest-chip {
       background: #FFF;
       border: 1px solid #FFCCBF;
-      border-radius: 16px;
-      padding: 4px 10px;
-      font-size: 0.74rem;
+      border-radius: 14px;
+      padding: 3px 9px;
+      font-size: 0.72rem;
       font-weight: 600;
       color: var(--text-dark);
       cursor: pointer;
@@ -664,62 +540,51 @@
     }
     .suggest-chip:hover {
       background: var(--primary-light);
-      border-color: var(--primary-shopee);
       color: var(--primary-shopee);
+      border-color: var(--primary-shopee);
     }
 
     /* Feedback Mechanism */
     .feedback-bar {
-      padding: 10px 18px;
+      padding: 8px 16px;
       background: #F8FAFC;
       border-top: 1px solid #E2E8F0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
     }
-    .fb-buttons { display: flex; gap: 6px; }
     .fb-btn {
       background: #FFF;
       border: 1px solid #E2E8F0;
-      border-radius: 6px;
-      padding: 3px 10px;
-      font-size: 0.72rem;
+      border-radius: 5px;
+      padding: 2px 8px;
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--text-dark);
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.15s;
     }
     .fb-btn:hover { background: #F1F5F9; color: var(--primary-shopee); }
-    .fb-btn.rated-yes { background: var(--accent-green-bg); color: var(--accent-green); border-color: var(--accent-green-border); }
-    .fb-btn.rated-no { background: var(--accent-red-bg); color: var(--accent-red); border-color: var(--accent-red-border); }
 
-    /* Chat Input Form */
+    /* Input Box */
     .chat-input-container {
-      padding: 14px 20px;
+      padding: 12px 16px;
       background: #FFFFFF;
       border-top: 1px solid #F1F5F9;
     }
     .input-form {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
     }
-    .text-input-wrap { flex: 1; }
     .text-input {
-      width: 100%;
-      padding: 12px 18px;
+      flex: 1;
+      padding: 10px 16px;
       border: 1.5px solid #E2E8F0;
-      border-radius: 12px;
+      border-radius: 10px;
       font-family: inherit;
-      font-size: 0.88rem;
-      color: var(--text-dark);
+      font-size: 0.86rem;
       outline: none;
       transition: all 0.2s;
     }
@@ -731,38 +596,33 @@
       background: linear-gradient(135deg, #EE4D2D 0%, #FF5722 100%);
       color: white;
       border: none;
-      outline: none;
-      padding: 12px 22px;
-      border-radius: 12px;
+      padding: 10px 20px;
+      border-radius: 10px;
       font-family: inherit;
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(238, 77, 45, 0.3);
+      box-shadow: 0 3px 10px rgba(238, 77, 45, 0.3);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
+      gap: 4px;
     }
-    .send-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(238, 77, 45, 0.4);
-    }
+    .send-btn:hover { transform: translateY(-1px); }
 
-    /* Right Sidebar: Live RAG Inspector */
+    /* Right Sidebar: Streamlined Inspector */
     .inspector-card {
       background: var(--glass-card);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-float);
-      border: 1px solid var(--border-glass);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       display: flex;
       flex-direction: column;
-      height: 720px;
+      height: 730px;
       overflow: hidden;
     }
 
     .inspector-header {
-      padding: 14px 20px;
+      padding: 12px 18px;
       background: linear-gradient(135deg, #EE4D2D 0%, #D84315 100%);
       color: white;
       display: flex;
@@ -770,27 +630,20 @@
       align-items: center;
     }
     .inspector-header h3 {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 800;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .live-dot-pulse {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #4ADE80;
-      box-shadow: 0 0 8px #4ADE80;
-    }
 
     .inspector-body {
       flex: 1;
-      padding: 16px;
+      padding: 14px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       background: #FFFBF9;
     }
 
@@ -798,16 +651,16 @@
       background: #FFFFFF;
       border: 1px solid #FFECE8;
       border-radius: var(--radius-md);
-      padding: 12px 14px;
-      box-shadow: var(--shadow-subtle);
+      padding: 10px 12px;
+      box-shadow: var(--shadow-card);
     }
     .box-title {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       font-weight: 800;
       color: var(--primary-shopee);
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -816,31 +669,31 @@
     .metric-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
     }
     .metric-item {
       background: #F8FAFC;
       border: 1px solid #E2E8F0;
       border-radius: 6px;
-      padding: 6px 10px;
+      padding: 5px 8px;
     }
-    .metric-label { font-size: 0.68rem; color: var(--text-muted); font-weight: 600; }
-    .metric-val { font-size: 0.84rem; font-weight: 800; color: var(--text-dark); margin-top: 2px; }
+    .metric-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
+    .metric-val { font-size: 0.8rem; font-weight: 800; color: var(--text-dark); margin-top: 2px; }
 
     .chunk-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
     .retrieved-chunk-card {
       background: #FFF;
       border: 1px solid #FFD5CC;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 0.74rem;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 0.72rem;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
     .chunk-top {
       display: flex;
@@ -851,43 +704,43 @@
       font-weight: 800;
       color: var(--primary-shopee);
       background: var(--primary-light);
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 4px;
     }
     .sim-score {
       font-weight: 700;
       color: var(--accent-green);
       background: var(--accent-green-bg);
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 4px;
     }
     .chunk-title {
       font-weight: 700;
       color: var(--text-dark);
-      line-height: 1.3;
+      line-height: 1.25;
     }
     .chunk-preview {
       color: #475569;
-      line-height: 1.4;
+      line-height: 1.35;
       background: #F8FAFC;
-      padding: 6px 8px;
+      padding: 5px;
       border-radius: 4px;
-      max-height: 80px;
+      max-height: 70px;
       overflow-y: auto;
       font-family: monospace;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
     }
 
     .guardrail-check-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      font-size: 0.74rem;
+      gap: 5px;
+      font-size: 0.72rem;
     }
     .check-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       color: var(--text-dark);
       font-weight: 600;
     }
@@ -909,98 +762,74 @@
     .modal-card {
       background: #FFFFFF;
       width: 100%;
-      max-width: 680px;
-      max-height: 85vh;
+      max-width: 650px;
+      max-height: 80vh;
       border-radius: var(--radius-xl);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes modalPop {
-      0% { transform: scale(0.92); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
     }
     .modal-header {
-      padding: 16px 20px;
+      padding: 14px 18px;
       background: linear-gradient(135deg, #EE4D2D 0%, #D84315 100%);
       color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .modal-header h3 { font-size: 0.95rem; font-weight: 800; }
+    .modal-header h3 { font-size: 0.92rem; font-weight: 800; }
     .modal-close {
       background: transparent;
       border: none;
       color: #FFFFFF;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       cursor: pointer;
     }
     .modal-body {
-      padding: 20px;
+      padding: 16px 18px;
       overflow-y: auto;
-      font-size: 0.84rem;
-      line-height: 1.6;
+      font-size: 0.82rem;
+      line-height: 1.55;
       color: var(--text-dark);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
     .source-meta-tag {
       display: inline-flex;
-      gap: 8px;
       font-size: 0.72rem;
       background: var(--primary-light);
       border: 1px solid var(--primary-border);
-      padding: 4px 10px;
-      border-radius: 6px;
+      padding: 3px 8px;
+      border-radius: 5px;
       color: var(--primary-shopee);
       font-weight: 700;
     }
     .source-fulltext {
       background: #F8FAFC;
       border: 1px solid #E2E8F0;
-      padding: 14px;
+      padding: 12px;
       border-radius: var(--radius-md);
       white-space: pre-wrap;
       font-family: inherit;
     }
 
-    /* Feedback Modal */
-    .fb-modal { max-width: 440px; }
-    .fb-options { display: flex; flex-direction: column; gap: 8px; }
-    .fb-check-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.82rem;
-      color: var(--text-dark);
-      cursor: pointer;
-    }
-
     /* Toast Notification */
     .toast-msg {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      right: 20px;
       background: #1E293B;
       color: white;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 0.82rem;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.8rem;
       font-weight: 700;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       z-index: 2000;
       display: none;
       align-items: center;
-      gap: 8px;
-      animation: toastSlide 0.3s ease;
-    }
-    @keyframes toastSlide {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      gap: 6px;
     }
   </style>
 </head>
@@ -1008,60 +837,25 @@
   <div class="app-background">
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
-    <div class="glow-orb orb-3"></div>
   </div>
 
   <div class="app-shell">
-    <!-- Top Frosted Header in Shopee Orange Theme -->
-    <header class="top-header">
-      <div class="header-main-row">
-        <div class="brand-group">
-          <div class="shopee-badge">
-            <svg viewBox="0 0 24 24"><path d="M19 6H16V5C16 2.79 14.21 1 12 1C9.79 1 8 2.79 8 5V6H5C3.9 6 3 6.9 3 8V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V8C21 6.9 20.1 6H19ZM10 5C10 3.9 10.9 3 12 3C13.1 3 14 3.9 14 5V6H10V5ZM19 19H5V8H8V10C8 10.55 8.45 11 9 11C9.55 11 10 10.55 10 10V8H14V10C14 10.55 14.45 11 15 11C15.55 11 16 10.55 16 10V8H19V19Z"/><circle cx="12" cy="14" r="2.5" fill="#EE4D2D"/></svg>
-            <span>Shopee</span>
-          </div>
-          <div class="brand-info">
-            <h1>Trợ Lí Chính Sách Đổi Trả & Hoàn Tiền <span class="rag-chip">RAG Policy Assistant</span></h1>
-            <p>Hệ thống tra cứu chính sách chính thức Shopee Help Center tích hợp lọc Metadata và Chống sinh ảo giác (Guardrail)</p>
-          </div>
+    <!-- Streamlined Header -->
+    <header class="compact-header">
+      <div class="brand-left">
+        <div class="shopee-badge">
+          <svg viewBox="0 0 24 24"><path d="M19 6H16V5C16 2.79 14.21 1 12 1C9.79 1 8 2.79 8 5V6H5C3.9 6 3 6.9 3 8V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V8C21 6.9 20.1 6H19ZM10 5C10 3.9 10.9 3 12 3C13.1 3 14 3.9 14 5V6H10V5ZM19 19H5V8H8V10C8 10.55 8.45 11 9 11C9.55 11 10 10.55 10 10V8H14V10C14 10.55 14.45 11 15 11C15.55 11 16 10.55 16 10V8H19V19Z"/><circle cx="12" cy="14" r="2.5" fill="#EE4D2D"/></svg>
+          <span>Shopee</span>
         </div>
-
-        <div class="team-badge">
-          <span class="dot-live"></span>
-          <span>Nhóm Enigma - L3B • <strong>Đặng Quang Hưng (02719)</strong> • HeadingChunker Active</span>
+        <div class="brand-titles">
+          <h1>Trợ Lí Chính Sách Đổi Trả & Hoàn Tiền <span class="feature-tag">Lọc Metadata & Guardrail</span></h1>
+          <p>Truy xuất 10 văn bản Shopee Help Center • Phân định Người Mua vs Người Bán • Chống sinh ảo giác</p>
         </div>
       </div>
 
-      <!-- Audience Switcher & Context Bar -->
-      <div class="audience-toolbar">
-        <div class="audience-selector-group">
-          <span class="selector-label">👤 Vai trò của bạn:</span>
-          <div class="audience-tabs" id="audience-tabs">
-            <button type="button" class="aud-tab active" data-aud="auto">⚡ Tự động nhận diện</button>
-            <button type="button" class="aud-tab" data-aud="buyer">🛍️ Người mua (Buyer)</button>
-            <button type="button" class="aud-tab" data-aud="seller">🏪 Người bán (Seller)</button>
-          </div>
-        </div>
-
-        <div class="current-policy-indicator">
-          <span>🎯 Đang áp dụng lọc:</span>
-          <span class="indicator-pill" id="active-policy-tag">Tự động (Dựa trên ngữ cảnh câu hỏi)</span>
-        </div>
-      </div>
-
-      <!-- RAG Pipeline Visualizer -->
-      <div class="pipeline-status-bar">
-        <div class="pipeline-step success" id="pipe-1">1. Audience Detection ✓</div>
-        <span class="pipeline-arrow">➔</span>
-        <div class="pipeline-step success" id="pipe-2">2. Intent Classification ✓</div>
-        <span class="pipeline-arrow">➔</span>
-        <div class="pipeline-step success" id="pipe-3">3. HeadingChunker Retrieval ✓</div>
-        <span class="pipeline-arrow">➔</span>
-        <div class="pipeline-step success" id="pipe-4">4. Metadata Pre-filter ✓</div>
-        <span class="pipeline-arrow">➔</span>
-        <div class="pipeline-step success" id="pipe-5">5. Guardrail & Grounding ✓</div>
-        <span class="pipeline-arrow">➔</span>
-        <div class="pipeline-step success" id="pipe-6">6. Structured Answer Schema ✓</div>
+      <div class="team-badge-pill">
+        <span class="dot-pulse"></span>
+        <span>Nhóm Enigma - L3B • <strong>Đặng Quang Hưng (02719)</strong> • HeadingChunker Active</span>
       </div>
     </header>
 
@@ -1069,25 +863,28 @@
     <main class="main-grid">
       <!-- Chat Interface -->
       <section class="chat-card">
-        <div class="chat-header">
-          <div class="chat-title-group">
-            <div class="chat-avatar">🤖</div>
-            <div>
-              <h2>Shopee RAG Policy Bot</h2>
-              <span>● Grounded in 10 official Help Center documents</span>
+        <!-- Unified Control Bar -->
+        <div class="chat-control-bar">
+          <div class="aud-switch-group">
+            <span class="aud-switch-label">👤 Vai trò:</span>
+            <div class="aud-tabs-compact">
+              <button type="button" class="aud-tab-btn active" data-aud="auto">⚡ Tự động</button>
+              <button type="button" class="aud-tab-btn" data-aud="buyer">🛍️ Người mua</button>
+              <button type="button" class="aud-tab-btn" data-aud="seller">🏪 Người bán</button>
             </div>
+            <span style="font-size:0.72rem; color:var(--text-muted);" id="active-policy-tag">Lọc: Tự động</span>
           </div>
-          <div class="chat-actions">
-            <button type="button" class="action-btn-sm" id="clear-chat-btn">🗑️ Làm mới hội thoại</button>
+
+          <div class="guardrail-status-pill">
+            <span>🛡️ Guardrail 100% Active</span>
           </div>
         </div>
 
-        <!-- Preset Benchmarks Quickbar -->
+        <!-- Presets Quickbar -->
         <div class="presets-bar" id="presets-bar"></div>
 
-        <!-- Chat Stream -->
+        <!-- Chat Messages Stream -->
         <div class="chat-messages" id="chat-messages">
-          <!-- Initial Welcome Message -->
           <div class="msg-row bot">
             <div class="msg-avatar">🤖</div>
             <div class="bot-card">
@@ -1100,19 +897,18 @@
                   Chào bạn! Tôi là Trợ lí Ảo hỗ trợ giải đáp chính sách Đổi trả, Hoàn tiền, Khiếu nại và Bảo hành trên Shopee.
                 </div>
                 <div class="answer-block">
-                  <div class="block-heading conditions">📋 Nguyên tắc phản hồi của hệ thống:</div>
+                  <div class="block-title conditions">📋 Hai cơ chế cốt lõi của hệ thống:</div>
                   <ul class="bullet-list">
-                    <li><strong>No Evidence → No Answer:</strong> Chỉ trích xuất từ 10 văn bản chính thức của Shopee, không bịa đặt.</li>
-                    <li><strong>Phân định đối tượng:</strong> Phân biệt chính sách riêng của <strong>Người mua (Buyer)</strong> và <strong>Người bán (Seller)</strong>.</li>
-                    <li><strong>Cấu trúc rõ ràng:</strong> Luôn cung cấp Kết luận dứt khoát, Điều kiện áp dụng, Ngoại lệ và Các bước cần làm.</li>
+                    <li><strong>Lọc Metadata (Buyer vs Seller):</strong> Đảm bảo Người mua chỉ nhận đúng quy định người mua, Người bán nhận đúng quy trình người bán.</li>
+                    <li><strong>Chống sinh ảo giác (Guardrail):</strong> Tuân thủ nghiêm ngặt nguyên tắc <em>No Evidence → No Answer</em> và từ chối các câu hỏi lạc đề (Messi, ẩm thực, thời tiết).</li>
                   </ul>
                 </div>
               </div>
               <div class="suggested-section">
-                <div class="suggested-label">💡 Bạn có thể thử các câu hỏi tình huống thực tế:</div>
+                <div class="suggested-label">💡 Thử nhanh các tình huống thực tế:</div>
                 <div class="suggested-chips">
-                  <button class="suggest-chip" onclick="applyPreset(1)">📦 Đơn nhận hơn 1 tuần, hàng lỗi có trả được không?</button>
-                  <button class="suggest-chip" onclick="applyPreset(2)">🏪 Shop nhận hàng hoàn bị vỡ/thiếu phụ kiện?</button>
+                  <button class="suggest-chip" onclick="applyPreset(1)">📦 Đơn hơn 1 tuần, hàng lỗi có trả được không?</button>
+                  <button class="suggest-chip" onclick="applyPreset(2)">🏪 Shop nhận hàng hoàn vỡ/thiếu phụ kiện?</button>
                   <button class="suggest-chip" onclick="applyPreset(4)">🎧 Tai nghe bóc seal có được đổi ý không?</button>
                 </div>
               </div>
@@ -1123,22 +919,20 @@
         <!-- Chat Input Form -->
         <div class="chat-input-container">
           <form class="input-form" id="chat-form">
-            <div class="text-input-wrap">
-              <input type="text" id="user-input" class="text-input" placeholder="Hỏi về chính sách trả hàng, hoàn tiền, thời hạn hoặc khiếu nại của Shopee..." autocomplete="off" />
-            </div>
-            <button type="submit" class="send-btn" id="send-btn">
-              <span>Gửi câu hỏi</span>
+            <input type="text" id="user-input" class="text-input" placeholder="Hỏi về đổi trả, hoàn tiền, thời hạn hoặc khiếu nại của Shopee..." autocomplete="off" />
+            <button type="submit" class="send-btn">
+              <span>Gửi</span>
               <span>➤</span>
             </button>
           </form>
         </div>
       </section>
 
-      <!-- Right Panel: Live RAG Inspector -->
+      <!-- Right Panel: Live RAG & Guardrail Audit -->
       <aside class="inspector-card">
         <div class="inspector-header">
-          <h3><span class="live-dot-pulse"></span> Live RAG Inspector</h3>
-          <span style="font-size:0.72rem; color: #FFE082; font-weight:700;">Shopee RAG Engine</span>
+          <h3><span>⚡</span> RAG & Guardrail Inspector</h3>
+          <span style="font-size:0.72rem; color: #FFE082; font-weight:700;">Live Audit</span>
         </div>
 
         <div class="inspector-body">
@@ -1146,7 +940,7 @@
           <div class="inspector-box">
             <div class="box-title">
               <span>🔍 Phân tích Ngữ nghĩa & Intent</span>
-              <span id="inspect-status" style="color:var(--accent-green); font-weight:700;">Idle</span>
+              <span id="inspect-status" style="color:var(--accent-green); font-weight:700;">Ready</span>
             </div>
             <div class="metric-grid">
               <div class="metric-item">
@@ -1163,20 +957,20 @@
               </div>
               <div class="metric-item">
                 <div class="metric-label">Grounding Check</div>
-                <div class="metric-val" id="inspect-grounding" style="color:var(--accent-green);">✓ Verified</div>
+                <div class="metric-val" id="inspect-grounding" style="color:var(--accent-green);">✓ 100% Grounded</div>
               </div>
             </div>
           </div>
 
-          <!-- Retrieved Chunks with Heading & Score -->
+          <!-- Retrieved Chunks -->
           <div class="inspector-box">
             <div class="box-title">
               <span>📑 Chunks Được Trích Xuất (Top-k)</span>
-              <span id="chunk-count-badge" style="background:var(--primary-light); color:var(--primary-shopee); padding:2px 6px; border-radius:4px;">0 chunks</span>
+              <span id="chunk-count-badge" style="background:var(--primary-light); color:var(--primary-shopee); padding:1px 6px; border-radius:4px;">0 chunks</span>
             </div>
             <div class="chunk-list" id="inspector-chunk-list">
-              <div style="font-size:0.76rem; color:var(--text-muted); text-align:center; padding:20px 0;">
-                Chưa có truy vấn nào được thực hiện.<br>Hãy bấm vào câu hỏi mẫu hoặc nhập câu hỏi.
+              <div style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:18px 0;">
+                Chưa có truy vấn nào.<br>Bấm vào câu hỏi mẫu phía dưới ô chat để thử nghiệm.
               </div>
             </div>
           </div>
@@ -1184,14 +978,14 @@
           <!-- Guardrail Rules Checklist -->
           <div class="inspector-box">
             <div class="box-title">
-              <span>🛡️ Bộ Tiêu Chí Đảm Bảo (Guardrails)</span>
-              <span style="color:var(--accent-green); font-weight:800;">100% Active</span>
+              <span>🛡️ Kiểm Soát Chống Ảo Giác</span>
+              <span style="color:var(--accent-green); font-weight:800;">Hoạt động</span>
             </div>
             <div class="guardrail-check-list">
-              <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>No Evidence → Từ chối bịa chính sách</span></div>
-              <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>Lọc siêu dữ liệu (Metadata filter: Buyer vs Seller)</span></div>
-              <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>Heading Chunker giữ toàn vẹn ngữ cảnh điều khoản</span></div>
-              <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>Từ chối câu hỏi ngoài miền (Messi, ẩm thực, thời tiết)</span></div>
+              <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>No Evidence → Không tự bịa chính sách</span></div>
+              <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>Lọc Metadata (Buyer vs Seller) chống nhầm lẫn</span></div>
+              <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>Heading Chunker bảo toàn tiêu đề điều khoản</span></div>
+              <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>Từ chối câu hỏi ngoài miền (Messi, thời tiết, phở)</span></div>
               <div class="check-item"><span style="color:var(--accent-green);">✅</span><span>Trích dẫn link trực tiếp Shopee Help Center</span></div>
             </div>
           </div>
@@ -1209,36 +1003,13 @@
       </div>
       <div class="modal-body">
         <div class="source-meta-tag" id="modal-doc-meta">Audience: buyer • Shopee Help Center</div>
-        <div><strong>Trích dẫn nguyên văn dùng cho câu trả lời:</strong></div>
+        <div><strong>Trích dẫn nguyên văn trong văn bản gốc:</strong></div>
         <div class="source-fulltext" id="modal-doc-content">...</div>
         <div>
           <a href="#" target="_blank" id="modal-doc-url" class="cit-url">
-            <span>🔗 Mở tài liệu gốc trên Shopee Help Center</span>
+            <span>🔗 Mở toàn văn điều khoản trên Shopee Help Center</span>
           </a>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Feedback Modal -->
-  <div class="modal-overlay" id="feedback-modal">
-    <div class="modal-card fb-modal">
-      <div class="modal-header">
-        <h3>Lý do bạn chưa hài lòng?</h3>
-        <button type="button" class="modal-close" onclick="closeFeedbackModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <p style="font-size:0.8rem; color:var(--text-muted);">Phản hồi của bạn giúp nhóm cải thiện bộ câu hỏi Benchmark và độ chính xác của RAG Retriever:</p>
-        <div class="fb-options">
-          <label class="fb-check-item"><input type="checkbox" name="fb_reason" value="wrong_policy"> Không đúng chính sách Shopee</label>
-          <label class="fb-check-item"><input type="checkbox" name="fb_reason" value="off_topic"> Không trả lời đúng câu hỏi</label>
-          <label class="fb-check-item"><input type="checkbox" name="fb_reason" value="missing_info"> Thiếu thông tin hoặc điều kiện quan trọng</label>
-          <label class="fb-check-item"><input type="checkbox" name="fb_reason" value="bad_citation"> Nguồn trích dẫn không liên quan</label>
-          <label class="fb-check-item"><input type="checkbox" name="fb_reason" value="too_long"> Câu trả lời quá dài dòng</label>
-        </div>
-        <button type="button" class="send-btn" style="width:100%; justify-content:center; margin-top:6px;" onclick="submitFeedback()">
-          Gửi góp ý cho nhóm
-        </button>
       </div>
     </div>
   </div>
@@ -1250,7 +1021,6 @@
   </div>
 
   <script>
-    // 10 Official Shopee Documents Corpus
     const CORPUS = [
       {
         doc_id: "shopee-buyer-return-conditions",
@@ -1341,7 +1111,6 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
       }
     ];
 
-    // Presets with Benchmark & Guardrail queries
     const PRESETS = [
       {
         id: 1,
@@ -1408,32 +1177,31 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
     let appState = {
       selectedAudience: "auto",
       detectedAudience: "buyer",
-      lastIntent: "return_refund",
-      conversationHistory: []
+      lastIntent: "return_refund"
     };
 
     function renderPresets() {
       const bar = document.getElementById("presets-bar");
       bar.innerHTML = "";
       PRESETS.forEach(p => {
-        const pill = document.createElement("button");
-        pill.type = "button";
-        pill.className = `preset-pill ${p.isGuardrail ? 'guardrail-test' : ''}`;
-        pill.innerHTML = p.short;
-        pill.onclick = () => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = `preset-chip ${p.isGuardrail ? 'guardrail' : ''}`;
+        chip.innerHTML = p.short;
+        chip.onclick = () => {
           document.getElementById("user-input").value = p.query;
           if (p.audience !== "both") {
             setAudience(p.audience);
           }
           handleUserSubmit(p.query);
         };
-        bar.appendChild(pill);
+        bar.appendChild(chip);
       });
     }
 
     function setAudience(aud) {
       appState.selectedAudience = aud;
-      document.querySelectorAll(".aud-tab").forEach(tab => {
+      document.querySelectorAll(".aud-tab-btn").forEach(tab => {
         tab.classList.toggle("active", tab.dataset.aud === aud);
       });
       updateActiveTag();
@@ -1442,11 +1210,11 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
     function updateActiveTag() {
       const tag = document.getElementById("active-policy-tag");
       if (appState.selectedAudience === "auto") {
-        tag.textContent = `Tự động (Dự kiến: ${appState.detectedAudience === 'buyer' ? 'Người mua' : 'Người bán'})`;
+        tag.textContent = `Lọc: Tự động (${appState.detectedAudience === 'buyer' ? 'Người mua' : 'Người bán'})`;
       } else if (appState.selectedAudience === "buyer") {
-        tag.textContent = "Chính sách dành cho: Người mua (Buyer)";
+        tag.textContent = "Lọc: Người mua (Buyer)";
       } else {
-        tag.textContent = "Chính sách dành cho: Người bán (Seller)";
+        tag.textContent = "Lọc: Người bán (Seller)";
       }
     }
 
@@ -1528,14 +1296,13 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
           recommended_actions: [
             "Kiểm tra lại xem đơn hàng có gắn nhãn đỏ 'Shopee Mall' hay không.",
             "Nếu là Shopee Mall: Vào mục Đơn Mua ➔ Chọn đơn hàng ➔ Bấm 'Yêu cầu Trả hàng/Hoàn tiền' ngay.",
-            "Nếu là Shop thường: Nhắn tin trực tiếp với Người Bán qua Shopee Chat để thỏa thuận bảo hành hoặc đổi sản phẩm thay thế."
+            "Nếu là Shop thường: Nhắn tin trực tiếp với Người Bán qua Shopee Chat để thỏa thuận bảo hành."
           ],
           timeline: "Xử lý trong vòng 24 - 48 giờ sau khi tạo yêu cầu thành công.",
           sources: [chunks[0] || CORPUS[0]],
           suggested: [
             "Làm sao để biết đơn của mình có phải Shopee Mall không?",
-            "Nếu Người Bán không chịu bảo hành thì Shopee có can thiệp không?",
-            "Sản phẩm điện tử được bảo hành chính hãng bao lâu?"
+            "Nếu Người Bán không chịu bảo hành thì Shopee có can thiệp không?"
           ]
         };
       }
@@ -1561,8 +1328,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
           sources: [chunks[0] || CORPUS[3]],
           suggested: [
             "Video mở hàng hoàn cần đạt chuẩn những tiêu chí gì?",
-            "Mức bồi thường tối đa khi hàng bị bể vỡ là bao nhiêu?",
-            "Nếu khách gửi hoàn hàng giả thì xử lý thế nào?"
+            "Mức bồi thường tối đa khi hàng bị bể vỡ là bao nhiêu?"
           ]
         };
       }
@@ -1581,14 +1347,13 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
           ],
           recommended_actions: [
             "Đơn ShopeePay: Kiểm tra lịch sử biến động số dư trong ứng dụng Ví ShopeePay sau 24h.",
-            "Đơn Visa: Kiểm tra sao kê thẻ ngân hàng trong kỳ sao kê gần nhất hoặc liên hệ tổng đài ngân hàng sau 7-14 ngày làm việc."
+            "Đơn Visa: Kiểm tra sao kê thẻ ngân hàng hoặc liên hệ tổng đài ngân hàng sau 7-14 ngày làm việc."
           ],
           timeline: "24 giờ đối với Ví ShopeePay; 7 - 14 ngày làm việc đối với thẻ Visa.",
           sources: [chunks[0] || CORPUS[2]],
           suggested: [
             "Nếu thẻ Visa của mình bị khóa thì tiền hoàn sẽ đi đâu?",
-            "Shopee xu và Voucher đã áp dụng có được hoàn lại không?",
-            "Kiểm tra trạng thái hoàn tiền ở đâu trên app Shopee?"
+            "Shopee xu và Voucher đã áp dụng có được hoàn lại không?"
           ]
         };
       }
@@ -1606,15 +1371,14 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
             "Các nhóm sản phẩm cũng bị từ chối đổi ý: Thực phẩm tươi sống/đông lạnh, đồ lót, đồ bơi và các mã dịch vụ điện tử."
           ],
           recommended_actions: [
-            "Nếu tai nghe bị lỗi kỹ thuật (rè âm, mất kết nối, lỗi pin): Quay video thể hiện rõ lỗi kỹ thuật ➔ Chọn lý do 'Hàng lỗi/Không hoạt động' thay vì lý do 'Đổi ý'.",
+            "Nếu tai nghe bị lỗi kỹ thuật (rè âm, mất kết nối, lỗi pin): Quay video thể hiện rõ lỗi ➔ Chọn lý do 'Hàng lỗi/Không hoạt động'.",
             "Nếu chỉ không vừa tai/đổi ý: Sản phẩm không đủ điều kiện trả hàng theo quy chế Shopee."
           ],
           timeline: "Shopee kiểm duyệt video lỗi trong 24 giờ.",
           sources: [chunks[0] || CORPUS[1]],
           suggested: [
             "Làm sao để quay video chứng minh tai nghe bị lỗi âm thanh?",
-            "Chính sách bảo hành chính hãng của tai nghe Shopee Mall?",
-            "Danh sách đầy đủ các mặt hàng không được đổi ý trên Shopee?"
+            "Chính sách bảo hành chính hãng của tai nghe Shopee Mall?"
           ]
         };
       }
@@ -1629,17 +1393,16 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
             "Đơn vị vận chuyển xác nhận bưu kiện bị thất lạc trong quá trình lưu chuyển."
           ],
           exceptions: [
-            "Nếu người mua tự ý gửi hàng ngoài hệ thống vận chuyển Shopee mà không có mã theo dõi hợp lệ thì chính sách đền bù này không áp dụng."
+            "Nếu người mua tự ý gửi hàng ngoài hệ thống vận chuyển Shopee mà không có mã theo dõi hợp lệ thì chính sách này không áp dụng."
           ],
           recommended_actions: [
             "Kiểm tra mã vận đơn trả hàng trên Kênh Người Bán xem hành trình có bị dừng quá lâu hay không.",
-            "Liên hệ Nhân viên Hỗ trợ Người Bán (Shopee Seller Support) để yêu cầu mở chuyên án đối soát vận chuyển thất lạc."
+            "Liên hệ Nhân viên Hỗ trợ Người Bán (Shopee Seller Support) để yêu cầu mở chuyên án đối soát."
           ],
           timeline: "Shopee hoàn tất bồi thường vào Số Dư Tài Khoản Shopee của Shop trong vòng 7 - 10 ngày làm việc.",
           sources: [chunks[0] || CORPUS[4]],
           suggested: [
             "Tiền đền bù thất lạc sẽ được chuyển vào đâu cho Shop?",
-            "Bưu tá làm mất hàng thì ai là người chịu trách nhiệm bồi thường?",
             "Thời gian tối đa để xác nhận một bưu kiện bị thất lạc là bao lâu?"
           ]
         };
@@ -1657,13 +1420,12 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
         ],
         recommended_actions: [
           "Kiểm tra lại mục Chi tiết Đơn hàng trong ứng dụng Shopee.",
-          "Liên hệ tổng đài Chăm sóc khách hàng Shopee qua Trung tâm Trợ giúp để được giải đáp chuyên biệt."
+          "Liên hệ tổng đài Chăm sóc khách hàng Shopee qua Trung tâm Trợ giúp."
         ],
         timeline: "Phản hồi trong 24 giờ làm việc.",
         sources: [chunks[0] || CORPUS[0]],
         suggested: [
-          "Làm thế nào để kết nối trực tiếp với nhân viên hỗ trợ Shopee?",
-          "Quy trình xử lý khiếu nại trả hàng mất bao lâu?"
+          "Làm thế nào để kết nối trực tiếp với nhân viên hỗ trợ Shopee?"
         ]
       };
     }
@@ -1711,7 +1473,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
           return;
         }
 
-        document.getElementById("inspect-status").textContent = "Done (200 OK)";
+        document.getElementById("inspect-status").textContent = "Grounded (200 OK)";
         document.getElementById("inspect-status").style.color = "#16A34A";
         document.getElementById("inspect-grounding").textContent = "✓ 100% Grounded";
         document.getElementById("inspect-grounding").style.color = "#16A34A";
@@ -1719,7 +1481,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
         const resp = generateResponse(text, effectiveAudience, analysis.intent, chunks);
         appendBotAnswerCard(resp, effectiveAudience);
 
-      }, 400);
+      }, 350);
     }
 
     function appendUserMessage(text) {
@@ -1745,7 +1507,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
       if (resp.conditions && resp.conditions.length > 0) {
         conditionsHtml = `
           <div class="answer-block">
-            <div class="block-heading conditions">📋 Điều kiện áp dụng:</div>
+            <div class="block-title conditions">📋 Điều kiện áp dụng:</div>
             <ul class="bullet-list">
               ${resp.conditions.map(c => `<li>${escapeHtml(c)}</li>`).join("")}
             </ul>
@@ -1757,7 +1519,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
       if (resp.exceptions && resp.exceptions.length > 0) {
         exceptionsHtml = `
           <div class="answer-block">
-            <div class="block-heading exceptions">⚠️ Ngoại lệ cần lưu ý:</div>
+            <div class="block-title exceptions">⚠️ Ngoại lệ cần lưu ý:</div>
             <ul class="bullet-list">
               ${resp.exceptions.map(e => `<li>${escapeHtml(e)}</li>`).join("")}
             </ul>
@@ -1769,7 +1531,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
       if (resp.recommended_actions && resp.recommended_actions.length > 0) {
         actionsHtml = `
           <div class="answer-block">
-            <div class="block-heading actions">🛠️ Các bước bạn nên làm:</div>
+            <div class="block-title actions">🛠️ Các bước bạn nên làm:</div>
             <ol class="number-list">
               ${resp.recommended_actions.map(a => `<li>${escapeHtml(a)}</li>`).join("")}
             </ol>
@@ -1781,7 +1543,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
       if (resp.timeline) {
         timelineHtml = `
           <div class="answer-block" style="background:#FFF9F7; border-color:#FFD5CC;">
-            <div class="block-heading timeline" style="color:var(--primary-shopee);">⏱️ Thời gian xử lý dự kiến:</div>
+            <div class="block-title timeline">⏱️ Thời gian xử lý dự kiến:</div>
             <div style="color:var(--primary-shopee); font-weight:700;">${escapeHtml(resp.timeline)}</div>
           </div>
         `;
@@ -1806,7 +1568,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
             <span class="decision-badge ${resp.decision}">${resp.decision_text}</span>
             <span class="bot-card-meta">
               <span>🎯 Chính sách: <strong style="color:var(--primary-shopee);">${audience === 'buyer' ? 'Người mua' : 'Người bán'}</strong></span>
-              <span>• HeadingChunker RAG</span>
+              <span>• HeadingChunker</span>
             </span>
           </div>
 
@@ -1823,7 +1585,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
                 <span>📚 Nguồn trích dẫn Shopee Help Center</span>
                 <span style="font-weight:700; color:var(--accent-green);">✓ Đã đối soát</span>
               </div>
-              <div class="citation-card">
+              <div class="citation-box">
                 <div class="cit-top">
                   <span class="cit-title">${escapeHtml(sourceDoc.title)}</span>
                   <button type="button" class="cit-btn" onclick="openSourceModal('${sourceDoc.doc_id}')">📖 Xem đoạn nguồn</button>
@@ -1838,12 +1600,11 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
 
           ${suggestedHtml}
 
-          <!-- Feedback Mechanism -->
           <div class="feedback-bar">
-            <span>Câu trả lời này có hữu ích không?</span>
-            <div class="fb-buttons">
-              <button type="button" class="fb-btn" onclick="rateHelpful(this, true)">👍 Có</button>
-              <button type="button" class="fb-btn" onclick="rateHelpful(this, false)">👎 Chưa hài lòng</button>
+            <span>Câu trả lời này có chuẩn xác không?</span>
+            <div style="display:flex; gap:6px;">
+              <button type="button" class="fb-btn" onclick="rateHelpful(true)">👍 Chuẩn xác</button>
+              <button type="button" class="fb-btn" onclick="rateHelpful(false)">👎 Cần góp ý</button>
             </div>
           </div>
         </div>
@@ -1870,7 +1631,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
               Xin lỗi bạn, trợ lý ảo chỉ hỗ trợ giải đáp các chính sách Đổi trả, Hoàn tiền, Khiếu nại và Bảo hành trên Shopee.
             </div>
             <div class="answer-block" style="background:#FFF5F5; border-color:#FED7D7;">
-              <div class="block-heading exceptions" style="color:#C53030;">Nguyên tắc an toàn (Safety Guardrail):</div>
+              <div class="block-title exceptions" style="color:#C53030;">Nguyên tắc an toàn (Safety Guardrail):</div>
               <p style="color:#742A2A;">
                 Câu hỏi của bạn không thuộc miền dữ liệu pháp lý & quy định TMĐT được cấp quyền. Hệ thống từ chối trả lời để tránh sinh ảo giác (hallucination) hoặc cung cấp thông tin không có căn cứ.
               </p>
@@ -1908,7 +1669,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
               Mình chưa tìm thấy thông tin đủ để kết luận từ tài liệu Shopee hiện có.
             </div>
             <div class="answer-block">
-              <div class="block-heading conditions">Bạn có thể cung cấp thêm thông tin chi tiết:</div>
+              <div class="block-title conditions">Bạn có thể cung cấp thêm thông tin chi tiết:</div>
               <ul class="bullet-list">
                 <li>Đơn hàng đã giao thành công được bao nhiêu ngày?</li>
                 <li>Bạn đang hỏi với tư cách là Người Mua hay Shop Người Bán?</li>
@@ -1929,8 +1690,8 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
 
       if (chunks.length === 0) {
         list.innerHTML = `
-          <div style="font-size:0.76rem; color:var(--text-muted); text-align:center; padding:20px 0;">
-            Không có chunk nào vượt ngưỡng lọc tương đồng.
+          <div style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:18px 0;">
+            Không có chunk nào vượt ngưỡng tương đồng.
           </div>
         `;
         return;
@@ -1943,7 +1704,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
             <span class="sim-score">Cosine: ${c.score.toFixed(3)}</span>
           </div>
           <div class="chunk-title">${escapeHtml(c.title)}</div>
-          <div class="chunk-preview">${escapeHtml(c.content.slice(0, 140))}...</div>
+          <div class="chunk-preview">${escapeHtml(c.content.slice(0, 130))}...</div>
         </div>
       `).join("");
     }
@@ -1972,32 +1733,15 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
       document.getElementById("source-modal").classList.remove("open");
     }
 
-    function rateHelpful(btn, isYes) {
-      const parent = btn.parentElement;
-      parent.querySelectorAll(".fb-btn").forEach(b => b.classList.remove("rated-yes", "rated-no"));
-      if (isYes) {
-        btn.classList.add("rated-yes");
-        showToast("Cảm ơn bạn đã phản hồi! Đánh giá này sẽ giúp tối ưu hóa hệ thống.");
-      } else {
-        btn.classList.add("rated-no");
-        document.getElementById("feedback-modal").classList.add("open");
-      }
-    }
-
-    function closeFeedbackModal() {
-      document.getElementById("feedback-modal").classList.remove("open");
-    }
-
-    function submitFeedback() {
-      closeFeedbackModal();
-      showToast("Góp ý đã được lưu vào Golden Benchmark Set để cải thiện Retriever!");
+    function rateHelpful(isYes) {
+      showToast(isYes ? "Cảm ơn bạn! Đánh giá đã được ghi nhận." : "Góp ý đã được lưu vào Golden Benchmark Set!");
     }
 
     function showToast(text) {
       const toast = document.getElementById("toast-msg");
       document.getElementById("toast-text").textContent = text;
       toast.style.display = "flex";
-      setTimeout(() => { toast.style.display = "none"; }, 3500);
+      setTimeout(() => { toast.style.display = "none"; }, 3000);
     }
 
     function escapeHtml(str) {
@@ -2007,7 +1751,7 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
     document.addEventListener("DOMContentLoaded", () => {
       renderPresets();
 
-      document.querySelectorAll(".aud-tab").forEach(tab => {
+      document.querySelectorAll(".aud-tab-btn").forEach(tab => {
         tab.addEventListener("click", () => {
           setAudience(tab.dataset.aud);
         });
@@ -2016,12 +1760,6 @@ Sản phẩm điện tử (tai nghe, điện thoại, máy tính bảng) đã b�
       document.getElementById("chat-form").addEventListener("submit", (e) => {
         e.preventDefault();
         handleUserSubmit();
-      });
-
-      document.getElementById("clear-chat-btn").addEventListener("click", () => {
-        const container = document.getElementById("chat-messages");
-        container.innerHTML = "";
-        showToast("Đã làm mới phiên hội thoại.");
       });
     });
   </script>
